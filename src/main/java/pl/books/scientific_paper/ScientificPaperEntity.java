@@ -1,5 +1,7 @@
 package pl.books.scientific_paper;
 
+import pl.books.author.Author;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
