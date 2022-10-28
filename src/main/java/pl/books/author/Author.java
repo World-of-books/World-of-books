@@ -3,6 +3,7 @@ package pl.books.author;
 import pl.books.scientific_paper.ScientificPaperEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public class Author {
     private String firstName;
     private String lastName;
     @ManyToMany
-    private List<ScientificPaperEntity> publications;
+    private List<ScientificPaperEntity> publications = new ArrayList<>();
 
     public Author() {
     }

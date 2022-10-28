@@ -4,6 +4,7 @@ import pl.books.author.Author;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +15,8 @@ public class ScientificPaperEntity {
     private Long id;
     private String name;
     private String description;
-    @ManyToMany
-    private List<Author> authors;
+    @ManyToMany(mappedBy = "publications")
+    private List<Author> authors = new ArrayList<>();
     private FieldOfStudy field;
     private String university;
     private Boolean isForAdults;
@@ -36,7 +37,7 @@ public class ScientificPaperEntity {
         this.publishedDate = publishedDate;
     }
 
-    static ScientificPaperEntity of(String name, String description, List<Author> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
+    public static ScientificPaperEntity of(String name, String description, List<Author> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
         return new ScientificPaperEntity(name, description, authors, field, university, isForAdults, pages, publishedDate);
     }
 
