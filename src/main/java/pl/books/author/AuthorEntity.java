@@ -3,35 +3,34 @@ package pl.books.author;
 import pl.books.scientific_paper.ScientificPaperEntity;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
-public class Author {
+public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;
     @ManyToMany
-    private List<ScientificPaperEntity> publications;
+    private Set<ScientificPaperEntity> publications = new HashSet<>();
 
-    public Author() {
+    public AuthorEntity() {
     }
 
-    public Author(String firstName, String lastName) {
+    public AuthorEntity(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public Author(String firstName, String lastName, List<ScientificPaperEntity> publications) {
+    public AuthorEntity(String firstName, String lastName, Set<ScientificPaperEntity> publications) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.publications = publications;
     }
 
-    public static Author of(String firstName, String lastName) {
-        return new Author(firstName, lastName);
+    public static AuthorEntity of(String firstName, String lastName) {
+        return new AuthorEntity(firstName, lastName);
     }
 
     @Override
@@ -47,8 +46,8 @@ public class Author {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Author)) return false;
-        Author author = (Author) o;
+        if (!(o instanceof AuthorEntity)) return false;
+        AuthorEntity author = (AuthorEntity) o;
         return Objects.equals(id, author.id) && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(publications, author.publications);
     }
 
@@ -81,11 +80,11 @@ public class Author {
         this.lastName = lastName;
     }
 
-    public List<ScientificPaperEntity> getPublications() {
+    public Set<ScientificPaperEntity> getPublications() {
         return publications;
     }
 
-    public void setPublications(List<ScientificPaperEntity> publications) {
+    public void setPublications(Set<ScientificPaperEntity> publications) {
         this.publications = publications;
     }
 }

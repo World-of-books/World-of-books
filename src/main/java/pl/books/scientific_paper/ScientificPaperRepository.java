@@ -2,7 +2,7 @@ package pl.books.scientific_paper;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ScientificPaperRepository extends JpaRepository<ScientificPaperEntity, Long> {
 
-    List<ScientificPaperEntity> findAllByAuthorsIn(List<Author> authors);
+    List<ScientificPaperEntity> findAllByAuthorsIn(List<AuthorEntity> authors);
 
     List<ScientificPaperEntity> findAllByField(FieldOfStudy fieldOfStudy);
 

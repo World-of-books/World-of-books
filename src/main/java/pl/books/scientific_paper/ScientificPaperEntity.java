@@ -1,11 +1,10 @@
 package pl.books.scientific_paper;
 
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class ScientificPaperEntity {
@@ -14,8 +13,8 @@ public class ScientificPaperEntity {
     private Long id;
     private String name;
     private String description;
-    @ManyToMany
-    private List<Author> authors;
+    @ManyToMany(mappedBy = "publications")
+    private Set<AuthorEntity> authors = new HashSet<>();
     private FieldOfStudy field;
     private String university;
     private Boolean isForAdults;
@@ -25,7 +24,7 @@ public class ScientificPaperEntity {
     public ScientificPaperEntity() {
     }
 
-    public ScientificPaperEntity(String name, String description, List<Author> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
+    public ScientificPaperEntity(String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
         this.name = name;
         this.description = description;
         this.authors = authors;
@@ -36,7 +35,7 @@ public class ScientificPaperEntity {
         this.publishedDate = publishedDate;
     }
 
-    static ScientificPaperEntity of(String name, String description, List<Author> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
+    public static ScientificPaperEntity of(String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
         return new ScientificPaperEntity(name, description, authors, field, university, isForAdults, pages, publishedDate);
     }
 
@@ -92,11 +91,11 @@ public class ScientificPaperEntity {
         this.description = description;
     }
 
-    public List<Author> getAuthors() {
+    public Set<AuthorEntity> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<AuthorEntity> authors) {
         this.authors = authors;
     }
 
