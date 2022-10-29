@@ -11,6 +11,7 @@ import pl.books.author.AuthorEntity;
 import pl.books.author.AuthorRepository;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -78,6 +79,46 @@ class ScientificPaperRepositoryTest {
 
         //then
         assertEquals(List.of(paper2, paper3), result);
+    }
+
+    @Test
+    void should_return_list_of_all_papers_published_between_two_dates() {
+        //given
+        ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Collections.emptySet(),
+                FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10));
+        ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Collections.emptySet(),
+                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 5, 12));
+        ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Collections.emptySet(),
+                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 7, 12));
+        testEntityManager.persist(paper1);
+        testEntityManager.persist(paper2);
+        testEntityManager.persist(paper3);
+
+        //when
+        List<ScientificPaperEntity> result = scientificPaperRepository.findAllByPublishedDateBetween(LocalDate.of(1999, 5, 12), LocalDate.of(1999, 7, 12));
+
+        //then
+        assertEquals(List.of(paper2, paper3), result);
+    }
+
+    @Test
+    void should_return_list_of_all_papers_meant_for_adults_only() {
+        //given
+        ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Collections.emptySet(),
+                FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10));
+        ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Collections.emptySet(),
+                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 5, 12));
+        ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Collections.emptySet(),
+                FieldOfStudy.PHYSIC, "Test university", true, 223, LocalDate.of(1999, 7, 12));
+        testEntityManager.persist(paper1);
+        testEntityManager.persist(paper2);
+        testEntityManager.persist(paper3);
+
+        //when
+        List<ScientificPaperEntity> result = scientificPaperRepository.findAllByIsForAdults(true);
+
+        //then
+        assertEquals(List.of(paper3), result);
     }
 
 }
