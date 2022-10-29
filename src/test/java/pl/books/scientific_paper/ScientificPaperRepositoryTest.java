@@ -48,6 +48,9 @@ class ScientificPaperRepositoryTest {
         testEntityManager.persist(paper1);
         testEntityManager.persist(paper2);
         testEntityManager.persist(paper3);
+        testAuthor.getPublications().add(paper1);
+        testAuthor.getPublications().add(paper2);
+        testAuthor2.getPublications().add(paper3);
 
         //when
         List<ScientificPaperEntity> result = scientificPaperRepository.findAllByAuthorsIn(List.of(testAuthor));

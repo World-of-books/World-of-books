@@ -1,11 +1,12 @@
 package pl.books.author;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import pl.books.scientific_paper.ScientificPaperEntity;
 
 import javax.persistence.*;
 import java.util.*;
 
-@Entity
+@Entity(name = "author")
 public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,6 +14,7 @@ public class AuthorEntity {
     private String firstName;
     private String lastName;
     @ManyToMany
+    @JoinTable(name="author_paper")
     private Set<ScientificPaperEntity> publications = new HashSet<>();
 
     public AuthorEntity() {
@@ -39,7 +41,6 @@ public class AuthorEntity {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", publications=" + publications +
                 '}';
     }
 
@@ -53,7 +54,7 @@ public class AuthorEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, publications);
+        return Objects.hash(id, firstName, lastName);
     }
 
     public Long getId() {

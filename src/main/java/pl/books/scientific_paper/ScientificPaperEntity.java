@@ -1,12 +1,14 @@
 package pl.books.scientific_paper;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import pl.books.author.AuthorEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
-@Entity
+@Entity(name = "paper")
 public class ScientificPaperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,7 +51,7 @@ public class ScientificPaperEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, authors, field, university, isForAdults, pages, publishedDate);
+        return Objects.hash(id, name, description, field, university, isForAdults, pages, publishedDate);
     }
 
     @Override
@@ -58,7 +60,6 @@ public class ScientificPaperEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", authors=" + authors +
                 ", field=" + field +
                 ", university='" + university + '\'' +
                 ", isForAdults=" + isForAdults +
