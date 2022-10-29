@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.books.author.AuthorEntity;
 import pl.books.author.AuthorRepository;
@@ -19,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class ScientificPaperRepositoryTest {
 
     @Autowired
@@ -54,10 +55,10 @@ class ScientificPaperRepositoryTest {
         testAuthor2.getPublications().add(paper3);
 
         //when
-        List<ScientificPaperEntity> result = scientificPaperRepository.findAllByAuthorsIn(List.of(testAuthor));
+        Page<ScientificPaperEntity> result = scientificPaperRepository.findAllByAuthorsIn(List.of(testAuthor), PageRequest.of(0, 5));
 
         //then
-        assertEquals(List.of(paper1, paper2), result);
+        assertEquals(List.of(paper1, paper2), result.getContent());
     }
 
     @Test
@@ -75,10 +76,10 @@ class ScientificPaperRepositoryTest {
         testEntityManager.persist(paper3);
 
         //when
-        List<ScientificPaperEntity> result = scientificPaperRepository.findAllByField(FieldOfStudy.PHYSIC);
+        Page<ScientificPaperEntity> result = scientificPaperRepository.findAllByField(FieldOfStudy.PHYSIC, PageRequest.of(0, 5));
 
         //then
-        assertEquals(List.of(paper2, paper3), result);
+        assertEquals(List.of(paper2, paper3), result.getContent());
     }
 
     @Test
@@ -95,10 +96,10 @@ class ScientificPaperRepositoryTest {
         testEntityManager.persist(paper3);
 
         //when
-        List<ScientificPaperEntity> result = scientificPaperRepository.findAllByPublishedDateBetween(LocalDate.of(1999, 5, 12), LocalDate.of(1999, 7, 12));
+        Page<ScientificPaperEntity> result = scientificPaperRepository.findAllByPublishedDateBetween(LocalDate.of(1999, 5, 12), LocalDate.of(1999, 7, 12), PageRequest.of(0, 5));
 
         //then
-        assertEquals(List.of(paper2, paper3), result);
+        assertEquals(List.of(paper2, paper3), result.getContent());
     }
 
     @Test
@@ -115,10 +116,10 @@ class ScientificPaperRepositoryTest {
         testEntityManager.persist(paper3);
 
         //when
-        List<ScientificPaperEntity> result = scientificPaperRepository.findAllByIsForAdults(true);
+        Page<ScientificPaperEntity> result = scientificPaperRepository.findAllByIsForAdults(true, PageRequest.of(0, 5));
 
         //then
-        assertEquals(List.of(paper3), result);
+        assertEquals(List.of(paper3), result.getContent());
     }
 
 }
