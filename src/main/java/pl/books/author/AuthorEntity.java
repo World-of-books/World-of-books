@@ -13,7 +13,7 @@ public class AuthorEntity {
     private Long id;
     private String firstName;
     private String lastName;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="author_paper")
     private Set<ScientificPaperEntity> publications = new HashSet<>();
 
@@ -57,32 +57,32 @@ public class AuthorEntity {
         return Objects.hash(id, firstName, lastName);
     }
 
-    public Long getId() {
-        return id;
+    public Optional<Long> getId() {
+        return Optional.ofNullable(id);
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public Optional<String> getFirstName() {
+        return Optional.ofNullable(firstName);
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public Optional<String> getLastName() {
+        return Optional.ofNullable(lastName);
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public Set<ScientificPaperEntity> getPublications() {
-        return publications;
+    public Optional<Set<ScientificPaperEntity>> getPublications() {
+        return Optional.ofNullable(publications);
     }
 
     public void setPublications(Set<ScientificPaperEntity> publications) {
