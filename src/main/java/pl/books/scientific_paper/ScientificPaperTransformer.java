@@ -6,7 +6,6 @@ import pl.books.author.AuthorEntity;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -17,20 +16,19 @@ public class ScientificPaperTransformer {
 
     ScientificPaperDTO toDTO(ScientificPaperEntity entity) {
         List<ScientificPaperAuthorDTO> authors = entity.getAuthors().stream()
-                .flatMap(Collection::stream)
                 .map(author -> new ScientificPaperAuthorDTO(
                         author.getId().orElse(null), author.getFirstName().orElse(null), author.getLastName().orElse(null)))
                 .toList();
         return new ScientificPaperDTO(
-                entity.getId().orElse(null),
-                entity.getName().orElse(null),
-                entity.getDescription().orElse(null),
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription(),
                 authors,
-                entity.getField().map(Enum::name).orElse(null),
-                entity.getUniversity().orElse(null),
-                entity.getForAdults().orElse(null),
-                entity.getPages().orElse(null),
-                entity.getPublishedDate().map(LocalDate::toString).orElse(null)
+                entity.getField().name(),
+                entity.getUniversity(),
+                entity.getForAdults(),
+                entity.getPages(),
+                entity.getPublishedDate() == null ? null : entity.getPublishedDate().toString()
         );
     }
 

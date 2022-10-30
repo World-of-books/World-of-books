@@ -15,6 +15,11 @@ public class ScientificPaperController {
         this.scientificPaperService = scientificPaperService;
     }
 
+    @GetMapping("/{id}")
+    ScientificPaperDTO getScientificPaperById(@PathVariable Long id) {
+        return scientificPaperService.getScientificPaperById(id);
+    }
+
     @GetMapping
     Page<ScientificPaperDTO> getAllPapers(@RequestParam(required = false) Integer page,
                                           @RequestParam(required = false) Integer size) {
@@ -48,5 +53,10 @@ public class ScientificPaperController {
     @DeleteMapping("/{id}")
     ScientificPaperDTO deleteScientificPaper(@PathVariable Long id) {
         return scientificPaperService.removeScientificPaper(id);
+    }
+
+    @PutMapping("/{id}")
+    ScientificPaperDTO updateScientificPaper(@PathVariable Long id, @RequestBody ScientificPaperDTO dto) {
+        return scientificPaperService.updateScientificPaper(id, dto);
     }
 }

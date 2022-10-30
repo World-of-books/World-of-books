@@ -79,7 +79,7 @@ public class ScientificPaperService {
             throw new NoSuchElementException("Could not find provided authors");
 
         ScientificPaperEntity scientificPaperEntity = scientificPaperTransformer.toEntity(newPaper, authorsById);
-        authorsById.forEach(author -> scientificPaperEntity.getAuthors().get().add(author));
+        authorsById.forEach(author -> scientificPaperEntity.getAuthors().add(author));
         ScientificPaperEntity save = scientificPaperRepository.save(scientificPaperEntity);
         authorsById.forEach(author -> author.getPublications().ifPresent(publications -> publications.add(save)));
         authorRepository.saveAll(authorsById);
@@ -92,11 +92,11 @@ public class ScientificPaperService {
         });
         ScientificPaperEntity clearedEntity = scientificPaperCommands.clearScientificPaperEntity(scientificPaperEntity);
         scientificPaperRepository.delete(clearedEntity);
-        clearedEntity.getAuthors().ifPresent(authorRepository::saveAll);
+        authorRepository.saveAll(clearedEntity.getAuthors());
         return scientificPaperTransformer.toDTO(clearedEntity);
     }
 
-    ScientificPaperDTO updateScientificPaer(Long id, ScientificPaperDTO dto) {
+    ScientificPaperDTO updateScientificPaper(Long id, ScientificPaperDTO dto) {
         ScientificPaperEntity entityToUpdate = scientificPaperRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchElementException("No paper found with id: " + id);
         });

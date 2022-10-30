@@ -20,8 +20,8 @@ class ClearScientificPaperEntityCommandTest {
                 "University of Tests", false, 123, LocalDate.of(1999, 9, 9));
         AuthorEntity authorEntity1 = new AuthorEntity(12L, "Test", "Test", new HashSet<>());
         AuthorEntity authorEntity2 = new AuthorEntity(13L, "Test2", "Test2", new HashSet<>());
-        newEntity.getAuthors().get().add(authorEntity1);
-        newEntity.getAuthors().get().add(authorEntity2);
+        newEntity.getAuthors().add(authorEntity1);
+        newEntity.getAuthors().add(authorEntity2);
         authorEntity1.getPublications().get().add(newEntity);
         authorEntity2.getPublications().get().add(newEntity);
         ScientificPaperEntity expectedEntity = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
@@ -32,7 +32,7 @@ class ClearScientificPaperEntityCommandTest {
 
         //then
         assertEquals(expectedEntity, result);
-        assertEquals(0, expectedEntity.getAuthors().get().size());
+        assertEquals(0, expectedEntity.getAuthors().size());
         assertEquals(0, authorEntity1.getPublications().get().size());
         assertEquals(0, authorEntity2.getPublications().get().size());
 

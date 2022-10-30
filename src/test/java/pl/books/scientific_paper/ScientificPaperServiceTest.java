@@ -79,7 +79,7 @@ class ScientificPaperServiceTest {
 
         //then
         assertEquals(expectedDto, result);
-        assertTrue(newEntity.getAuthors().get().contains(authorEntity));
+        assertTrue(newEntity.getAuthors().contains(authorEntity));
         assertTrue(authorEntity.getPublications().get().contains(newEntity));
     }
 
@@ -102,8 +102,8 @@ class ScientificPaperServiceTest {
                 "University of Tests", false, 123, LocalDate.of(1999, 9, 9));
         AuthorEntity authorEntity1 = new AuthorEntity(12L, "Test", "Test", new HashSet<>());
         AuthorEntity authorEntity2 = new AuthorEntity(13L, "Test2", "Test2", new HashSet<>());
-        entityFound.getAuthors().get().add(authorEntity1);
-        entityFound.getAuthors().get().add(authorEntity2);
+        entityFound.getAuthors().add(authorEntity1);
+        entityFound.getAuthors().add(authorEntity2);
         authorEntity1.getPublications().get().add(entityFound);
         authorEntity2.getPublications().get().add(entityFound);
         ScientificPaperEntity entityCleard = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,

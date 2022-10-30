@@ -82,72 +82,72 @@ public class ScientificPaperEntity implements Serializable {
                 '}';
     }
 
-    public Optional<Long> getId() {
-        return Optional.ofNullable(id);
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Optional<String> getName() {
-        return Optional.ofNullable(name);
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public Optional<String> getDescription() {
-        return Optional.ofNullable(description);
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public Optional<Set<AuthorEntity>> getAuthors() {
-        return Optional.ofNullable(authors);
+    public Set<AuthorEntity> getAuthors() {
+        return authors;
     }
 
     public void setAuthors(Set<AuthorEntity> authors) {
         this.authors = authors;
     }
 
-    public Optional<FieldOfStudy> getField() {
-        return Optional.ofNullable(field);
+    public FieldOfStudy getField() {
+        return field;
     }
 
     public void setField(FieldOfStudy field) {
         this.field = field;
     }
 
-    public Optional<String> getUniversity() {
-        return Optional.ofNullable(university);
+    public String getUniversity() {
+        return university;
     }
 
     public void setUniversity(String university) {
         this.university = university;
     }
 
-    public Optional<Boolean> getForAdults() {
-        return Optional.ofNullable(isForAdults);
+    public Boolean getForAdults() {
+        return isForAdults;
     }
 
     public void setForAdults(Boolean forAdults) {
         isForAdults = forAdults;
     }
 
-    public Optional<Integer> getPages() {
-        return Optional.ofNullable(pages);
+    public Integer getPages() {
+        return pages;
     }
 
     public void setPages(Integer pages) {
         this.pages = pages;
     }
 
-    public Optional<LocalDate> getPublishedDate() {
-        return Optional.ofNullable(publishedDate);
+    public LocalDate getPublishedDate() {
+        return publishedDate;
     }
 
     public void setPublishedDate(LocalDate publishedDate) {

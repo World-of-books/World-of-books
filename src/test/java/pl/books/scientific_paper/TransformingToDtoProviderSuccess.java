@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import pl.books.author.AuthorEntity;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -17,7 +18,7 @@ public class TransformingToDtoProviderSuccess implements ArgumentsProvider {
                 //Entity input
                 //DTO result
                 Arguments.of(
-                        new ScientificPaperEntity("Test", "Test", null,
+                        new ScientificPaperEntity("Test", "Test", new HashSet<>(),
                                 FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10)),
                         new ScientificPaperDTO(null, "Test", "Test", null,
                                 "ASTRONOMY", "Test", true, 123, LocalDate.of(1990, 10, 10).toString())

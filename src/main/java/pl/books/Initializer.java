@@ -46,7 +46,7 @@ public class Initializer {
         ScientificPaperEntity babyUniverses = new ScientificPaperEntity(7L, "Baby Universes And The Nonrenormalizability Of Gravity.", "Baby Universes And The Nonrenormalizability Of Gravity.",
                 new HashSet<>(), FieldOfStudy.PHYSIC, "University", false, 189, LocalDate.of(1988, 5, 5));
         hawking.getPublications().ifPresent(publications -> publications.add(babyUniverses));
-        babyUniverses.getAuthors().get().add(hawking);
+        babyUniverses.getAuthors().add(hawking);
         scientificPaperRepository.save(babyUniverses);
         authorRepository.save(hawking);
 

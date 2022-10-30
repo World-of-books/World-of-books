@@ -40,9 +40,9 @@ public class ScientificPaperUpdater {
     }
 
     private void updateAuthors(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getAuthors().isPresent() && updateEntity.getAuthors().get().size() > 0 && updateEntity.getAuthors() != entityToUpdate.getAuthors()) {
-            Set<AuthorEntity> currentAuthors = entityToUpdate.getAuthors().orElse(Collections.emptySet());
-            Set<AuthorEntity> newAuthors = updateEntity.getAuthors().get();
+        if (updateEntity.getAuthors() != null && updateEntity.getAuthors().size() > 0 && updateEntity.getAuthors() != entityToUpdate.getAuthors()) {
+            Set<AuthorEntity> currentAuthors = entityToUpdate.getAuthors();
+            Set<AuthorEntity> newAuthors = updateEntity.getAuthors();
             currentAuthors.forEach(auth -> auth.getPublications().ifPresent(list -> list.remove(entityToUpdate)));
             newAuthors.forEach(auth -> auth.getPublications().ifPresent(list -> list.add(entityToUpdate)));
             entityToUpdate.setAuthors(newAuthors);
@@ -53,37 +53,37 @@ public class ScientificPaperUpdater {
     }
 
     private void updatePublishDate(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getPublishedDate().isPresent() && updateEntity.getPublishedDate() != entityToUpdate.getPublishedDate())
-            entityToUpdate.setPublishedDate(updateEntity.getPublishedDate().get());
+        if (updateEntity.getPublishedDate() !=null && updateEntity.getPublishedDate() != entityToUpdate.getPublishedDate())
+            entityToUpdate.setPublishedDate(updateEntity.getPublishedDate());
     }
 
     private void updatePages(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getPages().isPresent() && !updateEntity.getPages().equals(entityToUpdate.getPages()))
-            entityToUpdate.setPages(updateEntity.getPages().get());
+        if (updateEntity.getPages() !=null && !updateEntity.getPages().equals(entityToUpdate.getPages()))
+            entityToUpdate.setPages(updateEntity.getPages());
     }
 
     private void updateForAdults(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getForAdults().isPresent() && updateEntity.getForAdults() != entityToUpdate.getForAdults())
-            entityToUpdate.setForAdults(updateEntity.getForAdults().get());
+        if (updateEntity.getForAdults() !=null && updateEntity.getForAdults() != entityToUpdate.getForAdults())
+            entityToUpdate.setForAdults(updateEntity.getForAdults());
     }
 
     private void updateUniversity(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getUniversity().isPresent() && !updateEntity.getUniversity().equals(entityToUpdate.getUniversity()))
-            entityToUpdate.setUniversity(updateEntity.getUniversity().get());
+        if (updateEntity.getUniversity() !=null && !updateEntity.getUniversity().equals(entityToUpdate.getUniversity()))
+            entityToUpdate.setUniversity(updateEntity.getUniversity());
     }
 
     private void updateField(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getField().isPresent() && updateEntity.getField() != entityToUpdate.getField())
-            entityToUpdate.setField(updateEntity.getField().get());
+        if (updateEntity.getField() !=null && updateEntity.getField() != entityToUpdate.getField())
+            entityToUpdate.setField(updateEntity.getField());
     }
 
     private void updateDescription(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getDescription().isPresent() && !updateEntity.getDescription().equals(entityToUpdate.getDescription()))
-            entityToUpdate.setDescription(updateEntity.getDescription().get());
+        if (updateEntity.getDescription() !=null && !updateEntity.getDescription().equals(entityToUpdate.getDescription()))
+            entityToUpdate.setDescription(updateEntity.getDescription());
     }
 
     private void updateName(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getName().isPresent() && !updateEntity.getName().equals(entityToUpdate.getName()))
-            entityToUpdate.setName(updateEntity.getName().get());
+        if (updateEntity.getName() !=null && !updateEntity.getName().equals(entityToUpdate.getName()))
+            entityToUpdate.setName(updateEntity.getName());
     }
 }
