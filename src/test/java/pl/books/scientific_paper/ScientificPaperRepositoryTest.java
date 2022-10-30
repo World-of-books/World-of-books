@@ -55,7 +55,7 @@ class ScientificPaperRepositoryTest {
         testAuthor2.getPublications().get().add(paper3);
 
         //when
-        Page<ScientificPaperEntity> result = scientificPaperRepository.findAllByAuthorsIn(List.of(testAuthor), PageRequest.of(0, 5));
+        Page<ScientificPaperEntity> result = scientificPaperRepository.findAllDistinctByAuthorsIn(List.of(testAuthor), PageRequest.of(0, 5));
 
         //then
         assertEquals(List.of(paper1, paper2), result.getContent());

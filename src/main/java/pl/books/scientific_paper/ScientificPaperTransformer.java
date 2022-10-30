@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ScientificPaperTransformer {
@@ -35,11 +35,11 @@ public class ScientificPaperTransformer {
     }
 
     ScientificPaperEntity toEntity(ScientificPaperDTO dto, List<AuthorEntity> authors) {
-        Set<AuthorEntity> authorEntities = authors == null ? null : Set.copyOf(authors);
+        HashSet<AuthorEntity> authorEntitiesSet = authors == null ? null : new HashSet<>(authors);
         return new ScientificPaperEntity(
                 dto.getName().map(this::capitalize).orElse(null),
                 dto.getDescription().map(this::capitalize).orElse(null),
-                authorEntities,
+                authorEntitiesSet,
                 dto.getField().map(this::parseFieldOfStudy).orElse(null),
                 dto.getUniversity().map(this::capitalize).orElse(null),
                 dto.getForAdults().orElse(null),

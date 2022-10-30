@@ -40,12 +40,14 @@ public class ScientificPaperUpdater {
     }
 
     private void updateAuthors(ScientificPaperEntity entityToUpdate, ScientificPaperEntity updateEntity) {
-        if (updateEntity.getAuthors() != entityToUpdate.getAuthors()) {
+        if (updateEntity.getAuthors().isPresent() && updateEntity.getAuthors().get().size() > 0 && updateEntity.getAuthors() != entityToUpdate.getAuthors()) {
             Set<AuthorEntity> currentAuthors = entityToUpdate.getAuthors().orElse(Collections.emptySet());
-            Set<AuthorEntity> newAuthors = updateEntity.getAuthors().orElse(Collections.emptySet());
+            Set<AuthorEntity> newAuthors = updateEntity.getAuthors().get();
             currentAuthors.forEach(auth -> auth.getPublications().ifPresent(list -> list.remove(entityToUpdate)));
             newAuthors.forEach(auth -> auth.getPublications().ifPresent(list -> list.add(entityToUpdate)));
-            authorRepository.saveAll(currentAuthors);
+            entityToUpdate.setAuthors(newAuthors);
+            if (currentAuthors.size() > 0)
+                authorRepository.saveAll(currentAuthors);
             authorRepository.saveAll(newAuthors);
         }
     }

@@ -13,7 +13,7 @@ public class AuthorEntity {
     private Long id;
     private String firstName;
     private String lastName;
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany()
     @JoinTable(name="author_paper")
     private Set<ScientificPaperEntity> publications = new HashSet<>();
 
@@ -23,6 +23,19 @@ public class AuthorEntity {
     public AuthorEntity(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public AuthorEntity(Long id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public AuthorEntity(Long id, String firstName, String lastName, Set<ScientificPaperEntity> publications) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.publications = publications;
     }
 
     public AuthorEntity(String firstName, String lastName, Set<ScientificPaperEntity> publications) {

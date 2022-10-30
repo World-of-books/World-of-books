@@ -3,6 +3,7 @@ package pl.books.scientific_paper;
 import pl.books.author.AuthorEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
@@ -10,13 +11,13 @@ import java.util.Optional;
 import java.util.Set;
 
 @Entity(name = "paper")
-public class ScientificPaperEntity {
+public class ScientificPaperEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
-    @ManyToMany(mappedBy = "publications", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "publications")
     private Set<AuthorEntity> authors = new HashSet<>();
     private FieldOfStudy field;
     private String university;
@@ -38,6 +39,18 @@ public class ScientificPaperEntity {
         this.publishedDate = publishedDate;
     }
 
+    public ScientificPaperEntity(Long id, String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.authors = authors;
+        this.field = field;
+        this.university = university;
+        this.isForAdults = isForAdults;
+        this.pages = pages;
+        this.publishedDate = publishedDate;
+    }
+
     public static ScientificPaperEntity of(String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
         return new ScientificPaperEntity(name, description, authors, field, university, isForAdults, pages, publishedDate);
     }
@@ -47,7 +60,7 @@ public class ScientificPaperEntity {
         if (this == o) return true;
         if (!(o instanceof ScientificPaperEntity)) return false;
         ScientificPaperEntity that = (ScientificPaperEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(authors, that.authors) && field == that.field && Objects.equals(university, that.university) && Objects.equals(isForAdults, that.isForAdults) && Objects.equals(pages, that.pages) && Objects.equals(publishedDate, that.publishedDate);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && field == that.field && Objects.equals(university, that.university) && Objects.equals(isForAdults, that.isForAdults) && Objects.equals(pages, that.pages) && Objects.equals(publishedDate, that.publishedDate);
     }
 
     @Override

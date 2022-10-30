@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ScientificPaperRepository extends JpaRepository<ScientificPaperEntity, Long> {
 
-    Page<ScientificPaperEntity> findAllByAuthorsIn(List<AuthorEntity> authors, PageRequest pageRequest);
+    Page<ScientificPaperEntity> findAllDistinctByAuthorsIn(List<AuthorEntity> authors, PageRequest pageRequest);
 
     Page<ScientificPaperEntity> findAllByField(FieldOfStudy fieldOfStudy, PageRequest pageRequest);
 
