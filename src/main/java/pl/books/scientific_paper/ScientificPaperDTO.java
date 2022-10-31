@@ -1,20 +1,31 @@
 package pl.books.scientific_paper;
 
-import io.swagger.models.auth.In;
-
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 public class ScientificPaperDTO {
     private Long id;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper name cannot be empty")
+    @Size(min = 3, max = 500, groups = {AddScientificPaper.class, UpdateScientificPaper.class}, message = "Scientific paper should be at least 3 characters long")
     private String name;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper description cannot be empty")
     private String description;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper most certainly has any author")
     private List<ScientificPaperAuthorDTO> authors;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper most certainly has any field of study")
     private String field;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper university cannot be empty")
     private String university;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper is either for adults only or not")
     private Boolean isForAdults;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper most certainly has any pages")
+    @Positive(groups = {AddScientificPaper.class, UpdateScientificPaper.class}, message = "Pages cannot be negative")
     private Integer pages;
+    @NotNull(groups = AddScientificPaper.class, message = "Scientific paper published date cannot be empty")
     private String publishedDate;
 
     public ScientificPaperDTO(Long id, String name, String description, List<ScientificPaperAuthorDTO> authors, String field, String university, Boolean isForAdults, Integer pages, String publishedDate) {
@@ -128,4 +139,10 @@ public class ScientificPaperDTO {
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
     }
+}
+
+interface AddScientificPaper {
+}
+
+interface UpdateScientificPaper {
 }

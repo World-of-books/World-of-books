@@ -24,7 +24,7 @@ public class ScientificPaperService {
         this.scientificPaperCommands = scientificPaperCommands;
     }
 
-    Page<ScientificPaperDTO> getAllByExample(Integer page, Integer size, String name, String desc, List<Long> authorsId, String field, String university, Boolean isForAdults) {
+    Page<ScientificPaperDTO> getAllByExample(Integer page, Integer size, String name, String desc, Set<Long> authorsId, String field, String university, Boolean isForAdults) {
         FieldOfStudy fieldOfStudy = null;
         if (field != null) {
             fieldOfStudy = FieldOfStudy.valueOf(field.toUpperCase());
@@ -33,7 +33,11 @@ public class ScientificPaperService {
         if (authorsId != null) {
             authors = new HashSet<>(authorRepository.findAllById(authorsId));
         }
-        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("university", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withIgnoreNullValues();
         Example<ScientificPaperEntity> example = Example.of(
                 new ScientificPaperEntity(name, desc, authors, fieldOfStudy, university, isForAdults, null, null), matcher);
         if (page != null && size != null && page == -1 && size == -1) {
@@ -53,7 +57,6 @@ public class ScientificPaperService {
         Page<ScientificPaperEntity> entities = scientificPaperRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
         return entities == null ? Page.empty() : entities.map(scientificPaperTransformer::toDTO);
     }
-
 
     Page<ScientificPaperDTO> getAllScientificPapersByAuthorId(Integer page, Integer size, List<Long> authorsId) {
         page = page == null || page < 0 ? 0 : page;

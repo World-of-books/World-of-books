@@ -1,9 +1,11 @@
 package pl.books.scientific_paper;
 
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/papers")
@@ -38,7 +40,7 @@ public class ScientificPaperController {
                                                   @RequestParam(required = false) Integer size,
                                                   @RequestParam(required = false) String name,
                                                   @RequestParam(required = false) String desc,
-                                                  @RequestParam(required = false) List<Long> authorsId,
+                                                  @RequestParam(required = false) Set<Long> authorsId,
                                                   @RequestParam(required = false) String field,
                                                   @RequestParam(required = false) String university,
                                                   @RequestParam(required = false) Boolean isForAdults) {
@@ -46,7 +48,7 @@ public class ScientificPaperController {
     }
 
     @PostMapping
-    ScientificPaperDTO addNewPaper(@RequestBody ScientificPaperDTO dto) {
+    ScientificPaperDTO addNewPaper(@RequestBody @Validated(value = AddScientificPaper.class) ScientificPaperDTO dto) {
         return scientificPaperService.addNewScientificPaper(dto);
     }
 
@@ -56,7 +58,7 @@ public class ScientificPaperController {
     }
 
     @PutMapping("/{id}")
-    ScientificPaperDTO updateScientificPaper(@PathVariable Long id, @RequestBody ScientificPaperDTO dto) {
+    ScientificPaperDTO updateScientificPaper(@PathVariable @Validated(value = UpdateScientificPaper.class) Long id, @RequestBody ScientificPaperDTO dto) {
         return scientificPaperService.updateScientificPaper(id, dto);
     }
 }

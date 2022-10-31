@@ -1,10 +1,12 @@
 package pl.books.author;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import pl.books.scientific_paper.ScientificPaperEntity;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 @Entity(name = "author")
 public class AuthorEntity {
