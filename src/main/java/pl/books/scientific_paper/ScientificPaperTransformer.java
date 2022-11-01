@@ -17,7 +17,7 @@ public class ScientificPaperTransformer {
     ScientificPaperDTO toDTO(ScientificPaperEntity entity) {
         List<ScientificPaperAuthorDTO> authors = entity.getAuthors().stream()
                 .map(author -> new ScientificPaperAuthorDTO(
-                        author.getId().orElse(null), author.getFirstName().orElse(null), author.getLastName().orElse(null)))
+                        author.getId() != null ? author.getId() : null, author.getFirstName() != null ? author.getFirstName() : null, author.getLastName() != null ? author.getLastName() : null))
                 .toList();
         return new ScientificPaperDTO(
                 entity.getId(),
@@ -28,7 +28,8 @@ public class ScientificPaperTransformer {
                 entity.getUniversity(),
                 entity.getForAdults(),
                 entity.getPages(),
-                entity.getPublishedDate() == null ? null : entity.getPublishedDate().toString()
+                entity.getPublishedDate() == null ? null : entity.getPublishedDate().toString(),
+                entity.getQuantity()
         );
     }
 
@@ -42,7 +43,8 @@ public class ScientificPaperTransformer {
                 dto.getUniversity().map(this::capitalize).orElse(null),
                 dto.getForAdults().orElse(null),
                 dto.getPages().orElse(null),
-                dto.getPublishedDate().map(this::parseDate).orElse(null)
+                dto.getPublishedDate().map(this::parseDate).orElse(null),
+                dto.getQuantity().orElse(null)
         );
     }
 

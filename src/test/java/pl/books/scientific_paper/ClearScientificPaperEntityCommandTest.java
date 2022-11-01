@@ -17,15 +17,15 @@ class ClearScientificPaperEntityCommandTest {
     void clear_entity_should_remove_authors_from_entity_and_entity_from_authors() {
         //given
         ScientificPaperEntity newEntity = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
-                "University of Tests", false, 123, LocalDate.of(1999, 9, 9));
+                "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
         AuthorEntity authorEntity1 = new AuthorEntity(12L, "Test", "Test", new HashSet<>());
         AuthorEntity authorEntity2 = new AuthorEntity(13L, "Test2", "Test2", new HashSet<>());
         newEntity.getAuthors().add(authorEntity1);
         newEntity.getAuthors().add(authorEntity2);
-        authorEntity1.getPublications().get().add(newEntity);
-        authorEntity2.getPublications().get().add(newEntity);
+        authorEntity1.getPublications().add(newEntity);
+        authorEntity2.getPublications().add(newEntity);
         ScientificPaperEntity expectedEntity = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
-                "University of Tests", false, 123, LocalDate.of(1999, 9, 9));
+                "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
 
         //when
         ScientificPaperEntity result = new ClearScientificPaperEntityCommand().execute(newEntity);
@@ -33,8 +33,8 @@ class ClearScientificPaperEntityCommandTest {
         //then
         assertEquals(expectedEntity, result);
         assertEquals(0, expectedEntity.getAuthors().size());
-        assertEquals(0, authorEntity1.getPublications().get().size());
-        assertEquals(0, authorEntity2.getPublications().get().size());
+        assertEquals(0, authorEntity1.getPublications().size());
+        assertEquals(0, authorEntity2.getPublications().size());
 
     }
 

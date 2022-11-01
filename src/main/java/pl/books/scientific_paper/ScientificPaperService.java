@@ -25,21 +25,16 @@ public class ScientificPaperService {
     }
 
     Page<ScientificPaperDTO> getAllByExample(Integer page, Integer size, String name, String desc, Set<Long> authorsId, String field, String university, Boolean isForAdults) {
-        FieldOfStudy fieldOfStudy = null;
-        if (field != null) {
-            fieldOfStudy = FieldOfStudy.valueOf(field.toUpperCase());
-        }
-        Set<AuthorEntity> authors = null;
-        if (authorsId != null) {
-            authors = new HashSet<>(authorRepository.findAllById(authorsId));
-        }
+        FieldOfStudy fieldOfStudy = field == null ? null : FieldOfStudy.valueOf(field.toUpperCase());
+        Set<AuthorEntity> authors = authorsId == null ? null : new HashSet<>(authorRepository.findAllById(authorsId));
+
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("university", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withIgnoreNullValues();
         Example<ScientificPaperEntity> example = Example.of(
-                new ScientificPaperEntity(name, desc, authors, fieldOfStudy, university, isForAdults, null, null), matcher);
+                new ScientificPaperEntity(name, desc, authors, fieldOfStudy, university, isForAdults, null, null, null), matcher);
         if (page != null && size != null && page == -1 && size == -1) {
             Pageable wholePage = Pageable.unpaged();
             return scientificPaperRepository.findAll(example, wholePage).map(scientificPaperTransformer::toDTO);
@@ -74,6 +69,8 @@ public class ScientificPaperService {
     }
 
     ScientificPaperDTO addNewScientificPaper(ScientificPaperDTO newPaper) {
+        if (newPaper.getAuthors().isEmpty() || (newPaper.getAuthors().isPresent() && newPaper.getAuthors().get().size() == 0))
+            throw new IllegalArgumentException("Scientific paper has to have at least one author!");
         List<Long> authorsId = Collections.emptyList();
         if (newPaper.getAuthors().isPresent())
             authorsId = newPaper.getAuthors().get().stream().map(author -> author.getId().orElse(null)).filter(Objects::nonNull).toList();
@@ -84,7 +81,7 @@ public class ScientificPaperService {
         ScientificPaperEntity scientificPaperEntity = scientificPaperTransformer.toEntity(newPaper, authorsById);
         authorsById.forEach(author -> scientificPaperEntity.getAuthors().add(author));
         ScientificPaperEntity save = scientificPaperRepository.save(scientificPaperEntity);
-        authorsById.forEach(author -> author.getPublications().ifPresent(publications -> publications.add(save)));
+        authorsById.forEach(author -> author.getPublications().add(save));
         authorRepository.saveAll(authorsById);
         return scientificPaperTransformer.toDTO(save);
     }

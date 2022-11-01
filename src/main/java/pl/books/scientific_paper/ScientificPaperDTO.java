@@ -27,8 +27,10 @@ public class ScientificPaperDTO {
     private Integer pages;
     @NotNull(groups = AddScientificPaper.class, message = "Scientific paper published date cannot be empty")
     private String publishedDate;
+    @Positive(groups = {AddScientificPaper.class, UpdateScientificPaper.class}, message = "Quantity cannot be negative")
+    private Integer quantity;
 
-    public ScientificPaperDTO(Long id, String name, String description, List<ScientificPaperAuthorDTO> authors, String field, String university, Boolean isForAdults, Integer pages, String publishedDate) {
+    public ScientificPaperDTO(Long id, String name, String description, List<ScientificPaperAuthorDTO> authors, String field, String university, Boolean isForAdults, Integer pages, String publishedDate, Integer quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,6 +40,7 @@ public class ScientificPaperDTO {
         this.isForAdults = isForAdults;
         this.pages = pages;
         this.publishedDate = publishedDate;
+        this.quantity = quantity;
     }
 
     @Override
@@ -52,6 +55,7 @@ public class ScientificPaperDTO {
                 ", isForAdults=" + isForAdults +
                 ", pages=" + pages +
                 ", publishedDate='" + publishedDate + '\'' +
+                ", quantity=" + quantity +
                 '}';
     }
 
@@ -60,12 +64,12 @@ public class ScientificPaperDTO {
         if (this == o) return true;
         if (!(o instanceof ScientificPaperDTO)) return false;
         ScientificPaperDTO that = (ScientificPaperDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(authors == null ? 0 : authors.size(), that.authors == null ? 0 : that.authors.size()) && Objects.equals(field, that.field) && Objects.equals(university, that.university) && Objects.equals(isForAdults, that.isForAdults) && Objects.equals(pages, that.pages) && Objects.equals(publishedDate, that.publishedDate);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && authors.containsAll(that.authors) && Objects.equals(field, that.field) && Objects.equals(university, that.university) && Objects.equals(isForAdults, that.isForAdults) && Objects.equals(pages, that.pages) && Objects.equals(publishedDate, that.publishedDate) && Objects.equals(quantity, that.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, authors == null ? 0 : authors.size(), field, university, isForAdults, pages, publishedDate);
+        return Objects.hash(id, name, description, authors, field, university, isForAdults, pages, publishedDate, quantity);
     }
 
     public Optional<Long> getId() {
@@ -138,6 +142,14 @@ public class ScientificPaperDTO {
 
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
+    }
+
+    public Optional<Integer> getQuantity() {
+        return Optional.ofNullable(quantity);
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }
 

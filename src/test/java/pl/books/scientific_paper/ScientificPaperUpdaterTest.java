@@ -42,9 +42,9 @@ class ScientificPaperUpdaterTest {
     void updater_should_throw_an_exception_when_authors_not_found() {
         //given
         ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test", "Test", null,
-                FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10));
+                FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10), 1);
         ScientificPaperDTO dto = new ScientificPaperDTO(null, "Test", "Test", List.of(new ScientificPaperAuthorDTO(1L, "test", "test"), new ScientificPaperAuthorDTO(34L, "test2", "testt")),
-                "ASTRONOMY", "Test", true, 123, LocalDate.of(1990, 10, 10).toString());
+                "ASTRONOMY", "Test", true, 123, LocalDate.of(1990, 10, 10).toString(), 1);
 
         Mockito.when(authorRepository.findAllById(List.of(1L, 34L))).thenReturn(Collections.emptyList());
 
@@ -57,16 +57,16 @@ class ScientificPaperUpdaterTest {
     @Test
     void update_should_add_new_author() {
         //given
-        ScientificPaperDTO updateDTO = new ScientificPaperDTO(null, null, null, List.of(new ScientificPaperAuthorDTO(99L, "Test1", "Test1"), new ScientificPaperAuthorDTO(100L, "Test2", "Test2")), null, null, null, null, null);
+        ScientificPaperDTO updateDTO = new ScientificPaperDTO(null, null, null, List.of(new ScientificPaperAuthorDTO(99L, "Test1", "Test1"), new ScientificPaperAuthorDTO(100L, "Test2", "Test2")), null, null, null, null, null, null);
         AuthorEntity existingAuthor = new AuthorEntity(99L, "Test1", "Test1", new HashSet<>());
         AuthorEntity newAuthor = new AuthorEntity(100L, "Test2", "Test2", new HashSet<>());
-        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", "Some desc", new HashSet<>(), null, null, null, null, null);
-        existingAuthor.getPublications().get().add(entityToUpdate);
+        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", "Some desc", new HashSet<>(), null, null, null, null, null, null);
+        existingAuthor.getPublications().add(entityToUpdate);
         entityToUpdate.getAuthors().add(existingAuthor);
-        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, null, new HashSet<>(), null, null, null, null, null);
+        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, null, new HashSet<>(), null, null, null, null, null, null);
         entityOfUpdateDTO.getAuthors().add(existingAuthor);
         entityOfUpdateDTO.getAuthors().add(newAuthor);
-        ScientificPaperDTO expectedDTO = new ScientificPaperDTO(null, "Test Name", "Some desc", new ArrayList<>(), null, null, null, null, null);
+        ScientificPaperDTO expectedDTO = new ScientificPaperDTO(null, "Test Name", "Some desc", new ArrayList<>(), null, null, null, null, null, null);
         expectedDTO.getAuthors().get().add(new ScientificPaperAuthorDTO(99L, "Test1", "Test1"));
         expectedDTO.getAuthors().get().add(new ScientificPaperAuthorDTO(100L, "Test2", "Test2"));
         Mockito.when(authorRepository.findAllById(List.of(99L, 100L))).thenReturn(List.of(existingAuthor, newAuthor));
@@ -78,8 +78,8 @@ class ScientificPaperUpdaterTest {
 
         //then
         assertEquals(expectedDTO, updateResult);
-        assertTrue(existingAuthor.getPublications().get().contains(entityToUpdate));
-        assertTrue(newAuthor.getPublications().get().contains(entityToUpdate));
+        assertTrue(existingAuthor.getPublications().contains(entityToUpdate));
+        assertTrue(newAuthor.getPublications().contains(entityToUpdate));
         assertTrue(entityToUpdate.getAuthors().contains(existingAuthor));
         assertTrue(entityToUpdate.getAuthors().contains(newAuthor));
     }
@@ -87,15 +87,15 @@ class ScientificPaperUpdaterTest {
     @Test
     void updater_should_remove_existing_author_and_add_another_one() {
         //given
-        ScientificPaperDTO updateDTO = new ScientificPaperDTO(null, null, null, List.of(new ScientificPaperAuthorDTO(100L, "Test2", "Test2")), null, null, null, null, null);
+        ScientificPaperDTO updateDTO = new ScientificPaperDTO(null, null, null, List.of(new ScientificPaperAuthorDTO(100L, "Test2", "Test2")), null, null, null, null, null, null);
         AuthorEntity existingAuthor = new AuthorEntity(99L, "Test1", "Test1", new HashSet<>());
         AuthorEntity newAuthor = new AuthorEntity(100L, "Test2", "Test2", new HashSet<>());
-        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", "Some desc", new HashSet<>(), null, null, null, null, null);
-        existingAuthor.getPublications().get().add(entityToUpdate);
+        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", "Some desc", new HashSet<>(), null, null, null, null, null, null);
+        existingAuthor.getPublications().add(entityToUpdate);
         entityToUpdate.getAuthors().add(existingAuthor);
-        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, null, new HashSet<>(), null, null, null, null, null);
+        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, null, new HashSet<>(), null, null, null, null, null, null);
         entityOfUpdateDTO.getAuthors().add(newAuthor);
-        ScientificPaperDTO expectedDTO = new ScientificPaperDTO(null, "Test Name", "Some desc", new ArrayList<>(), null, null, null, null, null);
+        ScientificPaperDTO expectedDTO = new ScientificPaperDTO(null, "Test Name", "Some desc", new ArrayList<>(), null, null, null, null, null, null);
         expectedDTO.getAuthors().get().add(new ScientificPaperAuthorDTO(100L, "Test2", "Test2"));
         Mockito.when(authorRepository.findAllById(List.of(100L))).thenReturn(List.of(newAuthor));
         Mockito.when(scientificPaperTransformer.toEntity(updateDTO, List.of(newAuthor))).thenReturn(entityOfUpdateDTO);
@@ -106,8 +106,8 @@ class ScientificPaperUpdaterTest {
 
         //then
         assertEquals(expectedDTO, updateResult);
-        assertTrue(newAuthor.getPublications().get().contains(entityToUpdate));
-        assertEquals(0, existingAuthor.getPublications().get().size());
+        assertTrue(newAuthor.getPublications().contains(entityToUpdate));
+        assertEquals(0, existingAuthor.getPublications().size());
         assertEquals(1, entityToUpdate.getAuthors().size());
         assertTrue(entityToUpdate.getAuthors().contains(newAuthor));
         Mockito.verify(authorRepository, Mockito.times(2)).saveAll(Mockito.any());
@@ -119,7 +119,7 @@ class ScientificPaperUpdaterTest {
     void updater_should_return_updated_value(ScientificPaperDTO updateDto, ScientificPaperEntity entityToUpdate,
                                              List<AuthorEntity> authorsMocked, ScientificPaperEntity entityOfUpdateDTO,
                                              ScientificPaperEntity expectedResult, ScientificPaperDTO expectedResultDTO) {
-        entityToUpdate.getAuthors().forEach(auth -> auth.getPublications().ifPresent(pub -> pub.add(entityToUpdate)));
+        entityToUpdate.getAuthors().forEach(auth -> auth.getPublications().add(entityToUpdate));
         Mockito.when(authorRepository.findAllById(Mockito.any())).thenReturn(authorsMocked);
         Mockito.when(scientificPaperTransformer.toEntity(updateDto, authorsMocked)).thenReturn(entityOfUpdateDTO);
         Mockito.when(scientificPaperTransformer.toDTO(entityToUpdate)).thenReturn(expectedResultDTO);

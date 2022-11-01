@@ -35,7 +35,7 @@ class ScientificPaperTransformerTest {
     void transforming_to_entity_should_throw_an_exception_related_to_date(String date){
         //when
         ScientificPaperDTO dto = new ScientificPaperDTO(12L, "Test", "test", null,
-                "austronomy", "test", true, 123, date);
+                "austronomy", "test", true, 123, date, null);
         //when&then
         assertThrows(IllegalArgumentException.class, ()-> transformer.toEntity(dto, null));
     }
@@ -63,7 +63,7 @@ class ScientificPaperTransformerTest {
     @Test
     void should_throw_an_exception_when_incorrect_field_of_study_provided() {
         //given
-        ScientificPaperDTO dto = new ScientificPaperDTO(12L, "Test", "desc", null, "wrong", "test", false, 123, null);
+        ScientificPaperDTO dto = new ScientificPaperDTO(12L, "Test", "desc", null, "wrong", "test", false, 123, null, 1);
         //when && then
         assertThrows(IllegalArgumentException.class, ()-> transformer.toEntity(dto, null));
     }

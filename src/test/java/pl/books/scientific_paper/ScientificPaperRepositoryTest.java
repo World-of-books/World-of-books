@@ -44,15 +44,15 @@ class ScientificPaperRepositoryTest {
         AuthorEntity testAuthor2 = AuthorEntity.of("TestTwo", "Test2");
         testEntityManager.persist(testAuthor);
         testEntityManager.persist(testAuthor2);
-        ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Set.of(testAuthor), FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10));
-        ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Set.of(testAuthor), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12));
-        ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Set.of(testAuthor2), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12));
+        ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Set.of(testAuthor), FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10), 1);
+        ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Set.of(testAuthor), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12), 1);
+        ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Set.of(testAuthor2), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12), 1);
         testEntityManager.persist(paper1);
         testEntityManager.persist(paper2);
         testEntityManager.persist(paper3);
-        testAuthor.getPublications().get().add(paper1);
-        testAuthor.getPublications().get().add(paper2);
-        testAuthor2.getPublications().get().add(paper3);
+        testAuthor.getPublications().add(paper1);
+        testAuthor.getPublications().add(paper2);
+        testAuthor2.getPublications().add(paper3);
 
         //when
         Page<ScientificPaperEntity> result = scientificPaperRepository.findAllDistinctByAuthorsIn(List.of(testAuthor), PageRequest.of(0, 5));
@@ -68,9 +68,9 @@ class ScientificPaperRepositoryTest {
         AuthorEntity testAuthor2 = AuthorEntity.of("TestTwo", "Test2");
         testEntityManager.persist(testAuthor);
         testEntityManager.persist(testAuthor2);
-        ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Set.of(testAuthor), FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10));
-        ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Set.of(testAuthor), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12));
-        ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Set.of(testAuthor2), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12));
+        ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Set.of(testAuthor), FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10), 1);
+        ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Set.of(testAuthor), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12), 1);
+        ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Set.of(testAuthor2), FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 10, 12), 1);
         testEntityManager.persist(paper1);
         testEntityManager.persist(paper2);
         testEntityManager.persist(paper3);
@@ -86,11 +86,11 @@ class ScientificPaperRepositoryTest {
     void should_return_list_of_all_papers_published_between_two_dates() {
         //given
         ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Collections.emptySet(),
-                FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10));
+                FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10), 1);
         ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Collections.emptySet(),
-                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 5, 12));
+                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 5, 12), 1);
         ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Collections.emptySet(),
-                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 7, 12));
+                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 7, 12), 1);
         testEntityManager.persist(paper1);
         testEntityManager.persist(paper2);
         testEntityManager.persist(paper3);
@@ -106,11 +106,11 @@ class ScientificPaperRepositoryTest {
     void should_return_list_of_all_papers_meant_for_adults_only() {
         //given
         ScientificPaperEntity paper1 = ScientificPaperEntity.of("First", "Test description", Collections.emptySet(),
-                FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10));
+                FieldOfStudy.ASTRONOMY, "Test university", false, 200, LocalDate.of(1999, 10, 10), 1);
         ScientificPaperEntity paper2 = ScientificPaperEntity.of("Second", "Test description2", Collections.emptySet(),
-                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 5, 12));
+                FieldOfStudy.PHYSIC, "Test university", false, 223, LocalDate.of(1999, 5, 12), 1);
         ScientificPaperEntity paper3 = ScientificPaperEntity.of("Third", "Test description2", Collections.emptySet(),
-                FieldOfStudy.PHYSIC, "Test university", true, 223, LocalDate.of(1999, 7, 12));
+                FieldOfStudy.PHYSIC, "Test university", true, 223, LocalDate.of(1999, 7, 12), 1);
         testEntityManager.persist(paper1);
         testEntityManager.persist(paper2);
         testEntityManager.persist(paper3);

@@ -44,7 +44,7 @@ class ScientificPaperServiceTest {
     void adding_new_paper_should_throw_an_exception_if_provided_authors_dont_exist() {
         //given
         ScientificPaperDTO scientificPaperDTO = new ScientificPaperDTO(null, "New Paper", "Some desc", new ArrayList<>(), "ASTRONOMY",
-                "University of Tests", false, 123, "1999-9-9");
+                "University of Tests", false, 123, "1999-9-9", 1);
         ScientificPaperAuthorDTO scientificPaperAuthorDTO = new ScientificPaperAuthorDTO(12L, null, null);
         scientificPaperDTO.getAuthors().get().add(scientificPaperAuthorDTO);
         Mockito.when(authorRepository.findAllById(List.of(12L))).thenReturn(Collections.emptyList());
@@ -60,15 +60,15 @@ class ScientificPaperServiceTest {
     void adding_new_paper_should_return_dto_when_successful() {
         //given
         ScientificPaperDTO scientificPaperDTO = new ScientificPaperDTO(null, "New Paper", "Some desc", new ArrayList<>(), "ASTRONOMY",
-                "University of Tests", false, 123, "1999-9-9");
+                "University of Tests", false, 123, "1999-9-9", 1);
         ScientificPaperAuthorDTO scientificPaperAuthorDTO = new ScientificPaperAuthorDTO(12L, null, null);
         scientificPaperDTO.getAuthors().get().add(scientificPaperAuthorDTO);
         AuthorEntity authorEntity = new AuthorEntity(12L, "Test", "Test", new HashSet<>());
         Mockito.when(authorRepository.findAllById(List.of(12L))).thenReturn(List.of(authorEntity));
         ScientificPaperEntity newEntity = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
-                "University of Tests", false, 123, LocalDate.of(1999, 9, 9));
+                "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
         ScientificPaperDTO expectedDto = new ScientificPaperDTO(null, "New Paper", "Some desc", new ArrayList<>(), "ASTRONOMY",
-                "University of Tests", false, 123, "1999-9-9");
+                "University of Tests", false, 123, "1999-9-9", 1);
         expectedDto.getAuthors().get().add(scientificPaperAuthorDTO);
         Mockito.when(scientificPaperTransformer.toEntity(scientificPaperDTO, List.of(authorEntity))).thenReturn(newEntity);
         Mockito.when(scientificPaperRepository.save(newEntity)).thenReturn(newEntity);
@@ -80,7 +80,7 @@ class ScientificPaperServiceTest {
         //then
         assertEquals(expectedDto, result);
         assertTrue(newEntity.getAuthors().contains(authorEntity));
-        assertTrue(authorEntity.getPublications().get().contains(newEntity));
+        assertTrue(authorEntity.getPublications().contains(newEntity));
     }
 
     @Test
@@ -99,17 +99,17 @@ class ScientificPaperServiceTest {
         //given
         Long id =  99L;
         ScientificPaperEntity entityFound = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
-                "University of Tests", false, 123, LocalDate.of(1999, 9, 9));
+                "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
         AuthorEntity authorEntity1 = new AuthorEntity(12L, "Test", "Test", new HashSet<>());
         AuthorEntity authorEntity2 = new AuthorEntity(13L, "Test2", "Test2", new HashSet<>());
         entityFound.getAuthors().add(authorEntity1);
         entityFound.getAuthors().add(authorEntity2);
-        authorEntity1.getPublications().get().add(entityFound);
-        authorEntity2.getPublications().get().add(entityFound);
+        authorEntity1.getPublications().add(entityFound);
+        authorEntity2.getPublications().add(entityFound);
         ScientificPaperEntity entityCleard = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
-                "University of Tests", false, 123, LocalDate.of(1999, 9, 9));
+                "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
         ScientificPaperDTO dto = new ScientificPaperDTO(null, "New Paper", "Some desc", new ArrayList<>(), "ASTRONOMY",
-                "University of Tests", false, 123, LocalDate.of(1999, 9, 9).toString());
+                "University of Tests", false, 123, LocalDate.of(1999, 9, 9).toString(), 1);
         Mockito.when(scientificPaperRepository.findById(id)).thenReturn(Optional.of(entityFound));
         Mockito.when(scientificPaperCommands.clearScientificPaperEntity(entityFound)).thenReturn(entityCleard);
         Mockito.when(scientificPaperTransformer.toDTO(entityCleard)).thenReturn(dto);

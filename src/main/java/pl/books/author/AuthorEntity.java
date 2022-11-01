@@ -4,9 +4,10 @@ import pl.books.scientific_paper.ScientificPaperEntity;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity(name = "author")
 public class AuthorEntity {
@@ -15,11 +16,15 @@ public class AuthorEntity {
     private Long id;
     private String firstName;
     private String lastName;
-    @ManyToMany()
-    @JoinTable(name="author_paper")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "author_paper")
     private Set<ScientificPaperEntity> publications = new HashSet<>();
 
     public AuthorEntity() {
+    }
+
+    public AuthorEntity(Long id) {
+        this.id = id;
     }
 
     public AuthorEntity(String firstName, String lastName) {
@@ -52,10 +57,12 @@ public class AuthorEntity {
 
     @Override
     public String toString() {
+        List<String> publicationsData = publications.stream().map(pub -> pub.getId() + " " + pub.getName()).toList();
         return "Author{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", publications='" + publicationsData + '\'' +
                 '}';
     }
 
@@ -63,8 +70,8 @@ public class AuthorEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AuthorEntity)) return false;
-        AuthorEntity author = (AuthorEntity) o;
-        return Objects.equals(id, author.id) && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(publications, author.publications);
+        AuthorEntity that = (AuthorEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && (publications == null || that.publications == null || publications.containsAll(that.publications));
     }
 
     @Override
@@ -72,32 +79,32 @@ public class AuthorEntity {
         return Objects.hash(id, firstName, lastName);
     }
 
-    public Optional<Long> getId() {
-        return Optional.ofNullable(id);
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Optional<String> getFirstName() {
-        return Optional.ofNullable(firstName);
+    public String getFirstName() {
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public Optional<String> getLastName() {
-        return Optional.ofNullable(lastName);
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public Optional<Set<ScientificPaperEntity>> getPublications() {
-        return Optional.ofNullable(publications);
+    public Set<ScientificPaperEntity> getPublications() {
+        return publications;
     }
 
     public void setPublications(Set<ScientificPaperEntity> publications) {

@@ -43,8 +43,8 @@ public class ScientificPaperUpdater {
         if (updateEntity.getAuthors() != null && updateEntity.getAuthors().size() > 0 && updateEntity.getAuthors() != entityToUpdate.getAuthors()) {
             Set<AuthorEntity> currentAuthors = entityToUpdate.getAuthors();
             Set<AuthorEntity> newAuthors = updateEntity.getAuthors();
-            currentAuthors.forEach(auth -> auth.getPublications().ifPresent(list -> list.remove(entityToUpdate)));
-            newAuthors.forEach(auth -> auth.getPublications().ifPresent(list -> list.add(entityToUpdate)));
+            currentAuthors.forEach(auth -> auth.getPublications().remove(entityToUpdate));
+            newAuthors.forEach(auth -> auth.getPublications().add(entityToUpdate));
             entityToUpdate.setAuthors(newAuthors);
             if (currentAuthors.size() > 0)
                 authorRepository.saveAll(currentAuthors);
