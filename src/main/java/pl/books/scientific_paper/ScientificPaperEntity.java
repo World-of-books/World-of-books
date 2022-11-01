@@ -27,6 +27,10 @@ public class ScientificPaperEntity implements Serializable {
     public ScientificPaperEntity() {
     }
 
+    public ScientificPaperEntity(Long id) {
+        this.id = id;
+    }
+
     public ScientificPaperEntity(String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
         this.name = name;
         this.description = description;

@@ -74,6 +74,8 @@ public class ScientificPaperService {
     }
 
     ScientificPaperDTO addNewScientificPaper(ScientificPaperDTO newPaper) {
+        if (newPaper.getAuthors().isEmpty() || (newPaper.getAuthors().isPresent() && newPaper.getAuthors().get().size() == 0))
+            throw new IllegalArgumentException("Scientific paper has to have at least one author!");
         List<Long> authorsId = Collections.emptyList();
         if (newPaper.getAuthors().isPresent())
             authorsId = newPaper.getAuthors().get().stream().map(author -> author.getId().orElse(null)).filter(Objects::nonNull).toList();

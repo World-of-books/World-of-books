@@ -14,6 +14,10 @@ public class ScientificPaperAuthorDTO {
         this.lastName = lastName;
     }
 
+    public ScientificPaperAuthorDTO(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "ScientificPaperAuthorDTO{" +

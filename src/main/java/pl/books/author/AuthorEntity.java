@@ -22,6 +22,10 @@ public class AuthorEntity {
     public AuthorEntity() {
     }
 
+    public AuthorEntity(Long id) {
+        this.id = id;
+    }
+
     public AuthorEntity(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
