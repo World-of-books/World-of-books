@@ -2,6 +2,9 @@ package pl.books;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.books.audiobook.AudiobookEntity;
+import pl.books.audiobook.AudiobookRepository;
+import pl.books.audiobook.AudiobookService;
 import pl.books.author.Author;
 import pl.books.author.AuthorRepository;
 import pl.books.book.BookEntity;
@@ -10,18 +13,22 @@ import pl.books.scientific_paper.ScientificPaperRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 @Component
 public class Init {
 
+    AudiobookService audiobookService;
+
     private final BookEntityRepository bookEntityRepository;
+
+    private final AudiobookRepository audiobookRepository;
 
     private final ScientificPaperRepository scientificPaperRepository;
 
     private final AuthorRepository authorRepository;
-
 
     @PostConstruct
     public void runList() {
@@ -41,6 +48,7 @@ public class Init {
         authorRepository.save(rog);
         authorRepository.save(rob);
         authorRepository.save(laur);
+
 
 
         BookEntity panTadeusz = new BookEntity(8, "Pan Tateusz", List.of(mick), "3424", LocalDate.of(1978, 11, 21), 700, "PWN", 20);
@@ -89,7 +97,16 @@ public class Init {
         authorRepository.save(laur);
 
 
-    }
+        List<Author> auth = new ArrayList<>();
+        auth.add(mick);
+        AudiobookEntity panTadeuszAudio = new AudiobookEntity(17l,"Pan Tateusz","lektura szkolna", auth, false,43200, LocalDate.of(2005, 02, 14), "3424", "PWN", 5);
+        audiobookRepository.save(panTadeuszAudio);
+        mick.getAudiobooks().add(panTadeuszAudio);
+        authorRepository.save(mick);
 
+
+
+
+    }
 
 }
