@@ -65,7 +65,7 @@ class ScientificPaperServiceTest {
         scientificPaperDTO.getAuthors().get().add(scientificPaperAuthorDTO);
         AuthorEntity authorEntity = new AuthorEntity(12L, "Test", "Test", new HashSet<>());
         Mockito.when(authorRepository.findAllById(List.of(12L))).thenReturn(List.of(authorEntity));
-        ScientificPaperEntity newEntity = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
+        ScientificPaperEntity newEntity = new ScientificPaperEntity("New Paper", new HashSet<>(), "Some desc", FieldOfStudy.ASTRONOMY,
                 "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
         ScientificPaperDTO expectedDto = new ScientificPaperDTO(null, "New Paper", "Some desc", new ArrayList<>(), "ASTRONOMY",
                 "University of Tests", false, 123, "1999-9-9", 1);
@@ -84,9 +84,9 @@ class ScientificPaperServiceTest {
     }
 
     @Test
-    void remove_paper_should_throw_an_exception_when_removing_non_existing_paper(){
+    void remove_paper_should_throw_an_exception_when_removing_non_existing_paper() {
         //given
-        Long id =  99L;
+        Long id = 99L;
 
         //when && then
         assertThrows(NoSuchElementException.class, () -> scientificPaperService.removeScientificPaper(id));
@@ -95,10 +95,10 @@ class ScientificPaperServiceTest {
     }
 
     @Test
-    void remove_paper_should_return_dto_if_deleted(){
+    void remove_paper_should_return_dto_if_deleted() {
         //given
-        Long id =  99L;
-        ScientificPaperEntity entityFound = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
+        Long id = 99L;
+        ScientificPaperEntity entityFound = new ScientificPaperEntity("New Paper", new HashSet<>(), "Some desc", FieldOfStudy.ASTRONOMY,
                 "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
         AuthorEntity authorEntity1 = new AuthorEntity(12L, "Test", "Test", new HashSet<>());
         AuthorEntity authorEntity2 = new AuthorEntity(13L, "Test2", "Test2", new HashSet<>());
@@ -106,7 +106,7 @@ class ScientificPaperServiceTest {
         entityFound.getAuthors().add(authorEntity2);
         authorEntity1.getPublications().add(entityFound);
         authorEntity2.getPublications().add(entityFound);
-        ScientificPaperEntity entityCleard = new ScientificPaperEntity("New Paper", "Some desc", new HashSet<>(), FieldOfStudy.ASTRONOMY,
+        ScientificPaperEntity entityCleard = new ScientificPaperEntity("New Paper", new HashSet<>(), "Some desc", FieldOfStudy.ASTRONOMY,
                 "University of Tests", false, 123, LocalDate.of(1999, 9, 9), 1);
         ScientificPaperDTO dto = new ScientificPaperDTO(null, "New Paper", "Some desc", new ArrayList<>(), "ASTRONOMY",
                 "University of Tests", false, 123, LocalDate.of(1999, 9, 9).toString(), 1);

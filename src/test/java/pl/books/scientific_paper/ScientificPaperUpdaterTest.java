@@ -41,7 +41,7 @@ class ScientificPaperUpdaterTest {
     @Test
     void updater_should_throw_an_exception_when_authors_not_found() {
         //given
-        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test", "Test", null,
+        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test", null, "Test",
                 FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10), 1);
         ScientificPaperDTO dto = new ScientificPaperDTO(null, "Test", "Test", List.of(new ScientificPaperAuthorDTO(1L, "test", "test"), new ScientificPaperAuthorDTO(34L, "test2", "testt")),
                 "ASTRONOMY", "Test", true, 123, LocalDate.of(1990, 10, 10).toString(), 1);
@@ -60,10 +60,10 @@ class ScientificPaperUpdaterTest {
         ScientificPaperDTO updateDTO = new ScientificPaperDTO(null, null, null, List.of(new ScientificPaperAuthorDTO(99L, "Test1", "Test1"), new ScientificPaperAuthorDTO(100L, "Test2", "Test2")), null, null, null, null, null, null);
         AuthorEntity existingAuthor = new AuthorEntity(99L, "Test1", "Test1", new HashSet<>());
         AuthorEntity newAuthor = new AuthorEntity(100L, "Test2", "Test2", new HashSet<>());
-        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", "Some desc", new HashSet<>(), null, null, null, null, null, null);
+        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", new HashSet<>(), "Some desc", null, null, null, null, null, null);
         existingAuthor.getPublications().add(entityToUpdate);
         entityToUpdate.getAuthors().add(existingAuthor);
-        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, null, new HashSet<>(), null, null, null, null, null, null);
+        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, new HashSet<>(), null, null, null, null, null, null, null);
         entityOfUpdateDTO.getAuthors().add(existingAuthor);
         entityOfUpdateDTO.getAuthors().add(newAuthor);
         ScientificPaperDTO expectedDTO = new ScientificPaperDTO(null, "Test Name", "Some desc", new ArrayList<>(), null, null, null, null, null, null);
@@ -90,10 +90,10 @@ class ScientificPaperUpdaterTest {
         ScientificPaperDTO updateDTO = new ScientificPaperDTO(null, null, null, List.of(new ScientificPaperAuthorDTO(100L, "Test2", "Test2")), null, null, null, null, null, null);
         AuthorEntity existingAuthor = new AuthorEntity(99L, "Test1", "Test1", new HashSet<>());
         AuthorEntity newAuthor = new AuthorEntity(100L, "Test2", "Test2", new HashSet<>());
-        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", "Some desc", new HashSet<>(), null, null, null, null, null, null);
+        ScientificPaperEntity entityToUpdate = new ScientificPaperEntity("Test Name", new HashSet<>(), "Some desc", null, null, null, null, null, null);
         existingAuthor.getPublications().add(entityToUpdate);
         entityToUpdate.getAuthors().add(existingAuthor);
-        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, null, new HashSet<>(), null, null, null, null, null, null);
+        ScientificPaperEntity entityOfUpdateDTO = new ScientificPaperEntity(null, new HashSet<>(), null, null, null, null, null, null, null);
         entityOfUpdateDTO.getAuthors().add(newAuthor);
         ScientificPaperDTO expectedDTO = new ScientificPaperDTO(null, "Test Name", "Some desc", new ArrayList<>(), null, null, null, null, null, null);
         expectedDTO.getAuthors().get().add(new ScientificPaperAuthorDTO(100L, "Test2", "Test2"));

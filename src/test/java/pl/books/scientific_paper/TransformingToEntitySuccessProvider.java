@@ -21,14 +21,14 @@ public class TransformingToEntitySuccessProvider implements ArgumentsProvider {
                         new ScientificPaperDTO(12L, "Test", "test", null,
                                 "astronomy", "test", true, 123, "1990-10-10", 1),
                         null,
-                        new ScientificPaperEntity("Test", "Test", null,
+                        new ScientificPaperEntity("Test", null, "Test",
                                 FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10), 1)
                 ),
                 Arguments.of(
                         new ScientificPaperDTO(12L, "Test", "test", null,
                                 "astronomy", "test", true, 123, "1990-10-10", 1),
                         List.of(AuthorEntity.of("Test1", "Test11"), AuthorEntity.of("Test2", "test22")),
-                        new ScientificPaperEntity("Test", "Test", Set.of(AuthorEntity.of("Test1", "Test11"), AuthorEntity.of("Test2", "test22")),
+                        new ScientificPaperEntity("Test", Set.of(AuthorEntity.of("Test1", "Test11"), AuthorEntity.of("Test2", "test22")), "Test",
                                 FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10), 1)
                 )
         );

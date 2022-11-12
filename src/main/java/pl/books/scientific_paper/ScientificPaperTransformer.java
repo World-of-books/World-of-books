@@ -37,8 +37,8 @@ public class ScientificPaperTransformer {
         HashSet<AuthorEntity> authorEntitiesSet = authors == null ? null : new HashSet<>(authors);
         return new ScientificPaperEntity(
                 dto.getName().map(this::capitalize).orElse(null),
-                dto.getDescription().map(this::capitalize).orElse(null),
                 authorEntitiesSet,
+                dto.getDescription().map(this::capitalize).orElse(null),
                 dto.getField().map(this::parseFieldOfStudy).orElse(null),
                 dto.getUniversity().map(this::capitalize).orElse(null),
                 dto.getForAdults().orElse(null),
