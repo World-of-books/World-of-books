@@ -3,14 +3,10 @@ package pl.books.scientific_paper;
 import pl.books.app.Publication;
 import pl.books.author.AuthorEntity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity(name = "paper")
 public class ScientificPaperEntity extends Publication {

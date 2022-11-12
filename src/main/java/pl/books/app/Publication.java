@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@MappedSuperclass
-public class Publication {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
