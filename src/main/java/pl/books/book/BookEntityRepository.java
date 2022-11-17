@@ -2,7 +2,7 @@ package pl.books.book;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 import pl.books.book.BookEntity;
 import pl.books.scientific_paper.FieldOfStudy;
 import pl.books.scientific_paper.ScientificPaperEntity;
@@ -16,7 +16,7 @@ public interface BookEntityRepository extends JpaRepository<BookEntity,Integer> 
 
 
 
-    List<BookEntity> findAllByAuthorIn(List<Author> author);
+    List<BookEntity> findAllByAuthorIn(List<AuthorEntity> author);
 
     List<BookEntity> findAllByTitle(String title);
 

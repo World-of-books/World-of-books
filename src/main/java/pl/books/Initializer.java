@@ -1,15 +1,20 @@
 package pl.books;
 
 import org.springframework.stereotype.Component;
+import pl.books.audiobook.AudiobookEntity;
+import pl.books.audiobook.AudiobookRepository;
 import pl.books.author.AuthorEntity;
 import pl.books.author.AuthorRepository;
 import pl.books.scientific_paper.FieldOfStudy;
 import pl.books.scientific_paper.ScientificPaperEntity;
 import pl.books.scientific_paper.ScientificPaperRepository;
 
+
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -17,10 +22,13 @@ public class Initializer {
 
     private final AuthorRepository authorRepository;
     private final ScientificPaperRepository scientificPaperRepository;
+    private final AudiobookRepository audiobookRepository;
 
-    public Initializer(AuthorRepository authorRepository, ScientificPaperRepository scientificPaperRepository) {
+
+    public Initializer(AuthorRepository authorRepository, ScientificPaperRepository scientificPaperRepository, AudiobookRepository audiobookRepository) {
         this.authorRepository = authorRepository;
         this.scientificPaperRepository = scientificPaperRepository;
+        this.audiobookRepository = audiobookRepository;
     }
 
     @PostConstruct
@@ -69,5 +77,13 @@ public class Initializer {
                 Set.of(dean), FieldOfStudy.MATHEMATICS, "Organisation for Economic Cooperation and Development formerly at the National Institute of Economic and Social Research", false, 161, LocalDate.of(1980, 1, 1), 10);
         dean.getPublications().add(wages_and_earnings);
         scientificPaperRepository.save(wages_and_earnings);
+
+
+        List<AuthorEntity> auth = new ArrayList<>();
+        auth.add(hawking);
+        AudiobookEntity panTadeuszAudio = new AudiobookEntity("Pan Tateusz","lektura szkolna", auth, false,43200, LocalDate.of(2005, 02, 14), "3424", "PWN", 5);
+        audiobookRepository.save(panTadeuszAudio);
+        hawking.getAudiobooks().add(panTadeuszAudio);
+        authorRepository.save(hawking);
     }
 }

@@ -3,7 +3,6 @@ package pl.books.audiobook;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import pl.books.author.Author;
 
 import java.time.LocalDate;
 import java.util.List;

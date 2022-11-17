@@ -1,6 +1,6 @@
 package pl.books.book;
 
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ public class BookDTO {
     private String title;
 
 
-    private List<Author> author = new ArrayList<>();
+    private List<AuthorEntity> author = new ArrayList<>();
 
 
     private String isbn;

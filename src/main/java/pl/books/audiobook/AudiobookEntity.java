@@ -1,7 +1,7 @@
 package pl.books.audiobook;
 
 import lombok.*;
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 import pl.books.scientific_paper.FieldOfStudy;
 import pl.books.scientific_paper.ScientificPaperEntity;
 
@@ -24,7 +24,7 @@ public class AudiobookEntity {
     private String title;
     private String description;
     @ManyToMany(mappedBy = "audiobooks")
-    private List<Author> authors = new ArrayList<>();
+    private List<AuthorEntity> authors = new ArrayList<>();
     private Boolean isForAdults;
     private Integer length; // seconds
     private LocalDate publishedDate;
@@ -32,7 +32,7 @@ public class AudiobookEntity {
     private String publishingHouse;
     private int quantity;
 
-    public AudiobookEntity(String title, String description, List<Author> authors, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse, int quantity) {
+    public AudiobookEntity(String title, String description, List<AuthorEntity> authors, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse, int quantity) {
         this.title = title;
         this.description = description;
         this.authors = authors;
@@ -44,7 +44,7 @@ public class AudiobookEntity {
         this.quantity = quantity;
     }
 
-    static AudiobookEntity of(String title, String description, List<Author> authors, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse, int quantity) {
+    static AudiobookEntity of(String title, String description, List<AuthorEntity> authors, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse, int quantity) {
         return new AudiobookEntity(title, description, authors, isForAdults, length, publishedDate, isbn, publishingHouse, quantity);
     }
 

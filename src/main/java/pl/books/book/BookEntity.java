@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.UniqueElements;
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,7 +25,7 @@ public class BookEntity {
     private String title;
 
     @ManyToMany(mappedBy = "books")
-    private List<Author> author = new ArrayList<>();
+    private List<AuthorEntity> author = new ArrayList<>();
 
     @Column(unique = true)
     private String isbn;

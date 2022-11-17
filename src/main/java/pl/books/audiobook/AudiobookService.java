@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 import pl.books.author.AuthorRepository;
 
 import java.util.List;
@@ -24,9 +24,9 @@ public class AudiobookService {
 
     public AudiobookEntity createAudiobook(AudiobookDTO audiobook) {
         AudiobookEntity audiobookEntity = convertDtoToEntity(audiobook);
-        List<Author> authors = audiobookEntity.getAuthors();
-        for(Author author:authors){
-            Author author1 = authorRepository.findById(author.getId()).get();
+        List<AuthorEntity> authors = audiobookEntity.getAuthors();
+        for(AuthorEntity author:authors){
+            AuthorEntity author1 = authorRepository.findById(author.getId()).get();
             List<AudiobookEntity> audiobooks = author1.getAudiobooks();
             audiobooks.add(audiobookEntity);
         }
@@ -59,7 +59,7 @@ public class AudiobookService {
 
         List<AudiobookAuthorDTO> authors2 = audiobookDTO.getAuthors();
         for(AudiobookAuthorDTO author:authors2){
-            Author author1 = authorRepository.findById(author.getId()).get();
+            AuthorEntity author1 = authorRepository.findById(author.getId()).get();
             List<AudiobookEntity> audiobooks = author1.getAudiobooks();
             audiobooks.add(audiobookEntity);
         }
@@ -81,7 +81,7 @@ public class AudiobookService {
         List<AudiobookAuthorDTO> authors = audiobookToRemoveDTO.getAuthors();
 
         for(AudiobookAuthorDTO author:authors){
-            Author fetchedAuthor = authorRepository.findById(author.getId()).get();
+            AuthorEntity fetchedAuthor = authorRepository.findById(author.getId()).get();
             List<AudiobookEntity> audiobooks = fetchedAuthor.getAudiobooks();
             for(AudiobookEntity audiobook:audiobooks){
                 if(audiobook.getId() ==  audiobookToRemove.getId()){
@@ -119,7 +119,7 @@ public class AudiobookService {
         return audiobook;
     }
 
-    private AudiobookAuthorDTO convertEntityToDtoAuthor(Author author){
+    private AudiobookAuthorDTO convertEntityToDtoAuthor(AuthorEntity author){
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
         AudiobookAuthorDTO audiobookAuthorDTO = new AudiobookAuthorDTO();
@@ -127,11 +127,11 @@ public class AudiobookService {
         return audiobookAuthorDTO;
     }
 
-    private Author convertDtoToEntityAuthor (AudiobookDTO audiobookAuthorDTO){
+    private AuthorEntity convertDtoToEntityAuthor (AudiobookDTO audiobookAuthorDTO){
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
-        Author author = new Author();
-        author = modelMapper.map(audiobookAuthorDTO, Author.class);
+        AuthorEntity author = new AuthorEntity();
+        author = modelMapper.map(audiobookAuthorDTO, AuthorEntity.class);
         return author;
     }
 
