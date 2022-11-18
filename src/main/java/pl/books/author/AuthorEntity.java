@@ -1,12 +1,11 @@
 package pl.books.author;
 
+import pl.books.audiobook.AudiobookEntity;
+import pl.books.book.BookEntity;
 import pl.books.scientific_paper.ScientificPaperEntity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity(name = "author")
@@ -20,7 +19,20 @@ public class AuthorEntity {
     @JoinTable(name = "author_paper")
     private Set<ScientificPaperEntity> publications = new HashSet<>();
 
+    @ManyToMany
+    private List<AudiobookEntity> audiobooks = new ArrayList<>();
+
     public AuthorEntity() {
+    }
+
+    public List<AudiobookEntity> getAudiobooks() {
+        return audiobooks;
+    }
+    @ManyToMany
+    private List<BookEntity> books = new ArrayList<>();
+
+    public void setAudiobooks(List<AudiobookEntity> audiobooks) {
+        this.audiobooks = audiobooks;
     }
 
     public AuthorEntity(Long id) {
@@ -109,5 +121,9 @@ public class AuthorEntity {
 
     public void setPublications(Set<ScientificPaperEntity> publications) {
         this.publications = publications;
+    }
+
+    public List<BookEntity> getBooks() {
+        return books;
     }
 }
