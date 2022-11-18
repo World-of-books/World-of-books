@@ -1,8 +1,10 @@
 package pl.books.scientific_paper;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.books.author.Author;
+import pl.books.author.AuthorEntity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,11 +12,11 @@ import java.util.List;
 @Repository
 public interface ScientificPaperRepository extends JpaRepository<ScientificPaperEntity, Long> {
 
-    List<ScientificPaperEntity> findAllByAuthorsIn(List<Author> authors);
+    Page<ScientificPaperEntity> findAllDistinctByAuthorsIn(List<AuthorEntity> authors, PageRequest pageRequest);
 
-    List<ScientificPaperEntity> findAllByField(FieldOfStudy fieldOfStudy);
+    Page<ScientificPaperEntity> findAllByField(FieldOfStudy fieldOfStudy, PageRequest pageRequest);
 
-    List<ScientificPaperEntity> findAllByPublishedDateBetween(LocalDate start, LocalDate end);
+    Page<ScientificPaperEntity> findAllByPublishedDateBetween(LocalDate start, LocalDate end, PageRequest pageRequest);
 
-    List<ScientificPaperEntity> findAllByIsForAdults(boolean isForAdults);
+    Page<ScientificPaperEntity> findAllByIsForAdults(boolean isForAdults, PageRequest pageRequest);
 }
