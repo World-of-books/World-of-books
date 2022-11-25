@@ -2,8 +2,7 @@ package pl.books.audiobook;
 
 import lombok.*;
 import pl.books.author.AuthorEntity;
-import pl.books.scientific_paper.FieldOfStudy;
-import pl.books.scientific_paper.ScientificPaperEntity;
+
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -22,14 +22,18 @@ public class AuthorEntity {
     @ManyToMany
     private List<AudiobookEntity> audiobooks = new ArrayList<>();
 
+    @ManyToMany
+    private List<BookEntity> books = new ArrayList<>();
+
+
+
+
     public AuthorEntity() {
     }
 
     public List<AudiobookEntity> getAudiobooks() {
         return audiobooks;
     }
-    @ManyToMany
-    private List<BookEntity> books = new ArrayList<>();
 
     public void setAudiobooks(List<AudiobookEntity> audiobooks) {
         this.audiobooks = audiobooks;
