@@ -1,11 +1,7 @@
 package pl.books.author;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import pl.books.audiobook.AudiobookDTO;
-import pl.books.audiobook.AudiobookService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,10 +14,15 @@ public class AuthorController {
     @Autowired
     private AuthorRepository authorRepository;
 
-//    @GetMapping("/audiobook/{id}")
-//    public AudiobookDTO getAudiobookById(@PathVariable Long id) {
-//        return authorService.getAudiobookById(id);
-//    }
+    @PostMapping("/addAuthor")
+    public AuthorEntity addAuthor(@RequestBody AuthorDTO authorDTO) {
+        return authorService.createAuthor(authorDTO);
+    }
+
+    @GetMapping("/author/{id}")
+    public AuthorDTO getAuthorById(@PathVariable Long id) {
+        return authorService.getAuthorById(id);
+    }
 
     @GetMapping("/authors")
     public List<AuthorDTO> getAllAuthors() {

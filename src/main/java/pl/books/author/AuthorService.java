@@ -21,13 +21,17 @@ public class AuthorService {
     private AuthorRepository authorRepository;
 
 
+    public AuthorEntity createAuthor(AuthorDTO authorDTO) {
+        AuthorEntity authorEntity = convertAuthorDtoToAuthorEntity(authorDTO);
+        return authorRepository.save(authorEntity);
+    }
 
-//    public List<AudiobookDTO> getAudiobooks() {
-//        return audiobookRepository.findAll()
-//                .stream()
-//                .map(this::convertEntityToDto)
-//                .collect(Collectors.toList());
-//    }
+    public AuthorDTO getAuthorById(Long id) {
+        AuthorEntity author = authorRepository.findById(id).orElse(null);// stream + converter
+        return convertAuthorEntityToAuthorDto(author);
+    }
+
+
     public List<AuthorDTO> getAuthors() {
         return authorRepository.findAll()
                 .stream()
@@ -51,6 +55,5 @@ public class AuthorService {
         authorEntity = modelMapper.map(authorDTO, AuthorEntity.class);
         return authorEntity;
     }
-
 
 }

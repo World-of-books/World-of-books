@@ -22,8 +22,8 @@ public class AuthorDTO {
     private Long id;
     private String firstName;
     private String lastName;
-    private Set<ScientificPaperDTO> publications = new HashSet<>();
-    private List<AudiobookDTO> audiobooks = new ArrayList<>();
-    private List<BookDTO> books = new ArrayList<>();
+//    private Set<ScientificPaperDTO> publications = new HashSet<>();
+//    private List<AudiobookDTO> audiobooks = new ArrayList<>();
+//    private List<BookDTO> books = new ArrayList<>();
 
 }
