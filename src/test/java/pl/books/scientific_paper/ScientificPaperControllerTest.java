@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import pl.books.app_user.AppUserRepository;
+import pl.books.app_user.AppUserService;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest
+@WebMvcTest(ScientificPaperController.class)
 class ScientificPaperControllerTest {
 
     @Autowired
@@ -33,6 +37,15 @@ class ScientificPaperControllerTest {
 
     @MockBean
     ScientificPaperService scientificPaperService;
+
+    @MockBean
+    AppUserService appUserService;
+
+    @MockBean
+    AppUserRepository appUserRepository;
+
+    @MockBean
+    PasswordEncoder passwordEncoder;
 
     @Test
     void get_scientific_paper_by_id_should_return_response_OK_and_response_body_of_found_paper() throws Exception {
