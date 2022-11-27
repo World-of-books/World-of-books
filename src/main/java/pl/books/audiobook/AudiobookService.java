@@ -10,17 +10,18 @@ import pl.books.author.AuthorRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Service("audio_service")
 public class AudiobookService {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final AudiobookRepository audiobookRepository;
+    private final AuthorRepository authorRepository;
 
-    @Autowired
-    private AudiobookRepository audiobookRepository;
-
-    @Autowired
-    private AuthorRepository authorRepository;
+    public AudiobookService(ModelMapper modelMapper, AudiobookRepository audiobookRepository, AuthorRepository authorRepository) {
+        this.modelMapper = modelMapper;
+        this.audiobookRepository = audiobookRepository;
+        this.authorRepository = authorRepository;
+    }
 
     public AudiobookEntity createAudiobook(AudiobookDTO audiobook) {
         AudiobookEntity audiobookEntity = convertDtoToEntity(audiobook);

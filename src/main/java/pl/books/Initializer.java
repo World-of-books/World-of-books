@@ -1,6 +1,12 @@
 package pl.books;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.books.app_user.AppUser;
+import pl.books.app_user.AppUserRepository;
+import pl.books.app_user.UserRole;
+import pl.books.app_user.UserRoleRepository;
 import pl.books.audiobook.AudiobookEntity;
 import pl.books.audiobook.AudiobookRepository;
 import pl.books.author.AuthorEntity;
@@ -18,18 +24,15 @@ import java.util.List;
 import java.util.Set;
 
 @Component
+@AllArgsConstructor
 public class Initializer {
 
     private final AuthorRepository authorRepository;
     private final ScientificPaperRepository scientificPaperRepository;
     private final AudiobookRepository audiobookRepository;
-
-
-    public Initializer(AuthorRepository authorRepository, ScientificPaperRepository scientificPaperRepository, AudiobookRepository audiobookRepository) {
-        this.authorRepository = authorRepository;
-        this.scientificPaperRepository = scientificPaperRepository;
-        this.audiobookRepository = audiobookRepository;
-    }
+    private final AppUserRepository appUserRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void run() {
@@ -85,5 +88,14 @@ public class Initializer {
         audiobookRepository.save(panTadeuszAudio);
         hawking.getAudiobooks().add(panTadeuszAudio);
         authorRepository.save(hawking);
+
+        UserRole user = new UserRole(13L, "user");
+        UserRole admin = new UserRole(14L, "admin");
+        userRoleRepository.save(user);
+        userRoleRepository.save(admin);
+
+        AppUser appUserPioter = new AppUser(15L, "pioter", "pioter@pioter.com", "pioter", "88051099999", LocalDate.of(1988, 05, 10), List.of(user));
+        appUserPioter.setUserPassword(passwordEncoder.encode(appUserPioter.getUserPassword()));
+        appUserRepository.save(appUserPioter);
     }
 }
