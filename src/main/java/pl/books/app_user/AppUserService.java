@@ -34,7 +34,7 @@ public class AppUserService implements UserDetailsService {
         return new UserDetailsAdapter(appUser);
     }
 
-    public AppUserCreateNewDto saveUser(AppUserCreateNewDto user) {
+    public AppUserDto saveUser(AppUserCreateNewDto user) {
         userRepository.findByUserEmailIgnoreCase(user.getUserEmail()).ifPresent(u -> {
             throw new IllegalArgumentException("Another user already exists with email address " + user.getUserEmail());
         });
@@ -49,8 +49,8 @@ public class AppUserService implements UserDetailsService {
         appUserEntity.setUserPassword(passwordEncoder.encode(user.getPassword()));
         UserRole userRole = roleRepository.findByRoleNameIgnoreCase("user").get();
         appUserEntity.getUserRoles().add(userRole);
-        userRepository.save(appUserEntity);
-        return user;
+        AppUser savedUser = userRepository.save(appUserEntity);
+        return appUserTransformer.toUserDto(savedUser);
     }
 
     String deleteUser(String username) {

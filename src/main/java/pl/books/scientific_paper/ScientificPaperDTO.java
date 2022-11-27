@@ -1,5 +1,7 @@
 package pl.books.scientific_paper;
 
+import pl.books.borrow_publication.PublicationType;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -29,6 +31,7 @@ public class ScientificPaperDTO {
     private String publishedDate;
     @Positive(groups = {AddScientificPaper.class, UpdateScientificPaper.class}, message = "Quantity cannot be negative")
     private Integer quantity;
+    private PublicationType publicationType = PublicationType.SCIENTIFIC_PAPER;
 
     public ScientificPaperDTO() {
     }
@@ -57,6 +60,20 @@ public class ScientificPaperDTO {
         this.pages = pages;
         this.publishedDate = publishedDate;
         this.quantity = 0;
+    }
+
+    public ScientificPaperDTO(Long id, String name, String description, List<ScientificPaperAuthorDTO> authors, String field, String university, Boolean isForAdults, Integer pages, String publishedDate, Integer quantity, PublicationType publicationType) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.authors = authors;
+        this.field = field;
+        this.university = university;
+        this.isForAdults = isForAdults;
+        this.pages = pages;
+        this.publishedDate = publishedDate;
+        this.quantity = quantity;
+        this.publicationType = publicationType;
     }
 
     @Override

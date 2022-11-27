@@ -18,7 +18,7 @@ public class AppUserController {
     }
 
     @PostMapping
-    AppUserCreateNewDto createNewUser(AppUserCreateNewDto dto) {
+    AppUserDto createNewUser(@RequestBody AppUserCreateNewDto dto) {
         return appUserService.saveUser(dto);
     }
 }

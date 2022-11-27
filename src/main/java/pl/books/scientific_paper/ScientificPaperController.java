@@ -24,8 +24,9 @@ public class ScientificPaperController {
 
     @GetMapping
     Page<ScientificPaperDTO> getAllPapers(@RequestParam(required = false) Integer page,
-                                          @RequestParam(required = false) Integer size) {
-        return scientificPaperService.getAllScientificPapers(page, size);
+                                          @RequestParam(required = false) Integer size,
+                                          @RequestParam(required = false) String sortBy) {
+        return scientificPaperService.getAllScientificPapers(page, size, sortBy);
     }
 
     @PostMapping("/by-authors")

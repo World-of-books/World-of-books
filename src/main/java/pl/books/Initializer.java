@@ -100,7 +100,7 @@ public class Initializer {
         appUserPioter.setUserPassword(passwordEncoder.encode(appUserPioter.getUserPassword()));
         appUserRepository.save(appUserPioter);
 
-        BorrowEntity borrow_baby_universe_pioter = new BorrowEntity(16L, babyUniverses, PublicationType.SCIENTIFIC_PAPER, appUserPioter, LocalDate.of(2022, 11, 27), LocalDate.of(2022, 12, 20));
+        BorrowEntity borrow_baby_universe_pioter = new BorrowEntity(16L, babyUniverses, PublicationType.SCIENTIFIC_PAPER, appUserPioter, LocalDate.of(2022, 10, 27), LocalDate.of(2022, 11, 20));
         borrowEntityRepository.save(borrow_baby_universe_pioter);
 
         BorrowEntity borrow_tadeusz_audio_pioter = new BorrowEntity(17L, panTadeuszAudio, PublicationType.AUDIOBOOK, appUserPioter, LocalDate.of(2022, 11, 27), LocalDate.of(2022, 12, 20));

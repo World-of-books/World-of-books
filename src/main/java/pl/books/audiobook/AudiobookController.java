@@ -3,8 +3,6 @@ package pl.books.audiobook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-import pl.books.author.AuthorRepository;
-
 
 import java.util.List;
 
@@ -21,6 +19,11 @@ public class AudiobookController {
     @PostMapping("/addAudiobook")
     public AudiobookEntity addAudiobook(@RequestBody AudiobookDTO audiobook) {
         return audiobookService.createAudiobook(audiobook);
+    }
+
+    @GetMapping("/audiobooks/newest")
+    public List<AudiobookDTO> getNewestAudiobooks() {
+        return audiobookService.getNewestAudiobooks();
     }
 
     @GetMapping("/audiobook/{id}")
