@@ -4,9 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.books.audiobook.AudiobookDTO;
-import pl.books.audiobook.AudiobookEntity;
-import pl.books.audiobook.AudiobookRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +36,6 @@ public class AuthorService {
                 .collect(Collectors.toList());
     }
 
-
     private AuthorDTO convertAuthorEntityToAuthorDto(AuthorEntity authorEntity){
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
@@ -56,4 +52,17 @@ public class AuthorService {
         return authorEntity;
     }
 
+    public AuthorDTO updateAuthor(Long id, AuthorDTO authorDTO) {
+        AuthorEntity authorEntity = authorRepository.findById(id).get();
+        AuthorDTO authorDTOToUpdate = convertAuthorEntityToAuthorDto(authorEntity);
+        authorDTOToUpdate.setFirstName(authorDTO.getFirstName());
+        authorDTOToUpdate.setLastName(authorDTO.getLastName());
+        authorRepository.save(convertAuthorDtoToAuthorEntity(authorDTOToUpdate));
+        return authorDTOToUpdate;
+    }
+
+    public String deleteAuthorById(Long id) {
+        authorRepository.deleteById(id);
+        return "Author got deleted";
+    }
 }

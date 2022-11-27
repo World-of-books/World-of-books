@@ -2,6 +2,7 @@ package pl.books.author;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.books.audiobook.AudiobookDTO;
 
 import java.util.List;
 
@@ -29,4 +30,13 @@ public class AuthorController {
         return authorService.getAuthors();
     }
 
+    @PutMapping("/updateAuthor/{id}")
+    public AuthorDTO updateAuthor(@PathVariable Long id, @RequestBody AuthorDTO authorDTO) {
+        return authorService.updateAuthor(id, authorDTO);
+    }
+
+    @DeleteMapping("/author/{id}")
+    public String deleteAuthor(@PathVariable Long id) {
+        return authorService.deleteAuthorById(id);
+    }
 }
