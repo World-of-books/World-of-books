@@ -1,6 +1,7 @@
 package pl.books.audiobook;
 
 import lombok.*;
+import pl.books.app.Publication;
 import pl.books.author.AuthorEntity;
 
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,15 +17,9 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Entity
-public class AudiobookEntity {
+public class AudiobookEntity extends Publication {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String title;
     private String description;
-    @ManyToMany(mappedBy = "audiobooks")
-    private List<AuthorEntity> authors = new ArrayList<>();
     private Boolean isForAdults;
     private Integer length; // seconds
     private LocalDate publishedDate;
@@ -31,21 +27,23 @@ public class AudiobookEntity {
     private String publishingHouse;
     private int quantity;
 
-    public AudiobookEntity(String title, String description, List<AuthorEntity> authors, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse, int quantity) {
-        this.title = title;
+    public AudiobookEntity(String name, Set<AuthorEntity> authors, String description, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse) {
+        super(name, authors);
         this.description = description;
-        this.authors = authors;
         this.isForAdults = isForAdults;
         this.length = length;
         this.publishedDate = publishedDate;
         this.isbn = isbn;
         this.publishingHouse = publishingHouse;
-        this.quantity = quantity;
     }
 
-    static AudiobookEntity of(String title, String description, List<AuthorEntity> authors, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse, int quantity) {
-        return new AudiobookEntity(title, description, authors, isForAdults, length, publishedDate, isbn, publishingHouse, quantity);
+    public AudiobookEntity(Long id, String name, Set<AuthorEntity> authors, String description, Boolean isForAdults, Integer length, LocalDate publishedDate, String isbn, String publishingHouse) {
+        super(id, name, authors);
+        this.description = description;
+        this.isForAdults = isForAdults;
+        this.length = length;
+        this.publishedDate = publishedDate;
+        this.isbn = isbn;
+        this.publishingHouse = publishingHouse;
     }
-
-
 }

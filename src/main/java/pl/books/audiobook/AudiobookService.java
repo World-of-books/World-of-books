@@ -8,6 +8,7 @@ import pl.books.author.AuthorEntity;
 import pl.books.author.AuthorRepository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("audio_service")
@@ -25,7 +26,7 @@ public class AudiobookService {
 
     public AudiobookEntity createAudiobook(AudiobookDTO audiobook) {
         AudiobookEntity audiobookEntity = convertDtoToEntity(audiobook);
-        List<AuthorEntity> authors = audiobookEntity.getAuthors();
+        Set<AuthorEntity> authors = audiobookEntity.getAuthors();
         for(AuthorEntity author:authors){
             AuthorEntity author1 = authorRepository.findById(author.getId()).get();
             List<AudiobookEntity> audiobooks = author1.getAudiobooks();

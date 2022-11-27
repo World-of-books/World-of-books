@@ -11,14 +11,15 @@ import pl.books.audiobook.AudiobookEntity;
 import pl.books.audiobook.AudiobookRepository;
 import pl.books.author.AuthorEntity;
 import pl.books.author.AuthorRepository;
+import pl.books.borrow_publication.BorrowEntity;
+import pl.books.borrow_publication.BorrowEntityRepository;
+import pl.books.borrow_publication.PublicationType;
 import pl.books.scientific_paper.FieldOfStudy;
 import pl.books.scientific_paper.ScientificPaperEntity;
 import pl.books.scientific_paper.ScientificPaperRepository;
 
-
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,12 +31,15 @@ public class Initializer {
     private final AuthorRepository authorRepository;
     private final ScientificPaperRepository scientificPaperRepository;
     private final AudiobookRepository audiobookRepository;
-    private final AppUserRepository appUserRepository;
     private final UserRoleRepository userRoleRepository;
+    private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final BorrowEntityRepository borrowEntityRepository;
+
 
     @PostConstruct
     public void run() {
+
         AuthorEntity hawking = new AuthorEntity(1L, "Stephen", "Hawking");
         authorRepository.save(hawking);
 
@@ -82,9 +86,7 @@ public class Initializer {
         scientificPaperRepository.save(wages_and_earnings);
 
 
-        List<AuthorEntity> auth = new ArrayList<>();
-        auth.add(hawking);
-        AudiobookEntity panTadeuszAudio = new AudiobookEntity("Pan Tateusz","lektura szkolna", auth, false,43200, LocalDate.of(2005, 02, 14), "3424", "PWN", 5);
+        AudiobookEntity panTadeuszAudio = new AudiobookEntity(12L, "Pan Tateusz", Set.of(hawking), "lektura szkolna", false, 43200, LocalDate.of(2005, 02, 14), "3424", "PWN");
         audiobookRepository.save(panTadeuszAudio);
         hawking.getAudiobooks().add(panTadeuszAudio);
         authorRepository.save(hawking);
@@ -97,5 +99,15 @@ public class Initializer {
         AppUser appUserPioter = new AppUser(15L, "pioter", "pioter@pioter.com", "pioter", "88051099999", LocalDate.of(1988, 05, 10), List.of(user));
         appUserPioter.setUserPassword(passwordEncoder.encode(appUserPioter.getUserPassword()));
         appUserRepository.save(appUserPioter);
+
+        BorrowEntity borrow_baby_universe_pioter = new BorrowEntity(16L, babyUniverses, PublicationType.SCIENTIFIC_PAPER, appUserPioter, LocalDate.of(2022, 11, 27), LocalDate.of(2022, 12, 20));
+        borrowEntityRepository.save(borrow_baby_universe_pioter);
+
+        BorrowEntity borrow_tadeusz_audio_pioter = new BorrowEntity(17L, panTadeuszAudio, PublicationType.AUDIOBOOK, appUserPioter, LocalDate.of(2022, 11, 27), LocalDate.of(2022, 12, 20));
+        borrowEntityRepository.save(borrow_tadeusz_audio_pioter);
+
+        List<BorrowEntity> all = borrowEntityRepository.findAll();
+        System.out.println(all.get(0));
+        System.out.println(all.get(1));
     }
 }

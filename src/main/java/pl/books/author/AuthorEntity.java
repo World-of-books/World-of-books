@@ -14,11 +14,9 @@ public class AuthorEntity {
     private Long id;
     private String firstName;
     private String lastName;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "author_paper")
+    @ManyToMany(mappedBy = "authors",  cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ScientificPaperEntity> publications = new HashSet<>();
-
-    @ManyToMany
+    @ManyToMany(mappedBy = "authors", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<AudiobookEntity> audiobooks = new ArrayList<>();
 
     @ManyToMany

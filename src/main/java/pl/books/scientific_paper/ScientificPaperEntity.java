@@ -44,6 +44,16 @@ public class ScientificPaperEntity extends Publication {
         this.quantity = quantity;
     }
 
+    public ScientificPaperEntity(String name, Set<AuthorEntity> authors, String description, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
+        super(name, authors);
+        this.description = description;
+        this.field = field;
+        this.university = university;
+        this.isForAdults = isForAdults;
+        this.pages = pages;
+        this.publishedDate = publishedDate;
+    }
+
     public static ScientificPaperEntity of(String name, Set<AuthorEntity> authors, String description, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate, Integer quantity) {
         return new ScientificPaperEntity(name,authors, description, field, university, isForAdults, pages, publishedDate, quantity);
     }

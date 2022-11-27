@@ -43,8 +43,8 @@ public class ScientificPaperTransformer {
                 dto.getUniversity().map(this::capitalize).orElse(null),
                 dto.getForAdults().orElse(null),
                 dto.getPages().orElse(null),
-                dto.getPublishedDate().map(this::parseDate).orElse(null),
-                dto.getQuantity().orElse(null)
+                dto.getPublishedDate().map(this::parseDate).orElse(null)
+//                dto.getQuantity().orElse(null)
         );
     }
 

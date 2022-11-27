@@ -30,6 +30,9 @@ public class ScientificPaperDTO {
     @Positive(groups = {AddScientificPaper.class, UpdateScientificPaper.class}, message = "Quantity cannot be negative")
     private Integer quantity;
 
+    public ScientificPaperDTO() {
+    }
+
     public ScientificPaperDTO(Long id, String name, String description, List<ScientificPaperAuthorDTO> authors, String field, String university, Boolean isForAdults, Integer pages, String publishedDate, Integer quantity) {
         this.id = id;
         this.name = name;
@@ -43,7 +46,17 @@ public class ScientificPaperDTO {
         this.quantity = quantity;
     }
 
-    public ScientificPaperDTO() {
+    public ScientificPaperDTO(Long id, String name, String description, List<ScientificPaperAuthorDTO> authors, String field, String university, Boolean isForAdults, Integer pages, String publishedDate) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.authors = authors;
+        this.field = field;
+        this.university = university;
+        this.isForAdults = isForAdults;
+        this.pages = pages;
+        this.publishedDate = publishedDate;
+        this.quantity = 0;
     }
 
     @Override
