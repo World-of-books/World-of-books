@@ -43,6 +43,9 @@ public class ScientificPaperDTO {
         this.quantity = quantity;
     }
 
+    public ScientificPaperDTO() {
+    }
+
     @Override
     public String toString() {
         return "ScientificPaperDTO{" +

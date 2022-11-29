@@ -6,7 +6,6 @@ import pl.books.scientific_paper.ScientificPaperEntity;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity(name = "author")
 public class AuthorEntity {
@@ -22,14 +21,15 @@ public class AuthorEntity {
     @ManyToMany
     private List<AudiobookEntity> audiobooks = new ArrayList<>();
 
+    @ManyToMany
+    private List<BookEntity> books = new ArrayList<>();
+
     public AuthorEntity() {
     }
 
     public List<AudiobookEntity> getAudiobooks() {
         return audiobooks;
     }
-    @ManyToMany
-    private List<BookEntity> books = new ArrayList<>();
 
     public void setAudiobooks(List<AudiobookEntity> audiobooks) {
         this.audiobooks = audiobooks;
@@ -37,6 +37,10 @@ public class AuthorEntity {
 
     public AuthorEntity(Long id) {
         this.id = id;
+    }
+
+    public void setBooks(List<BookEntity> books) {
+        this.books = books;
     }
 
     public AuthorEntity(String firstName, String lastName) {

@@ -14,7 +14,6 @@ public class AudiobookDTO {
     private Long id;
     private String title;
     private String description;
-//    private List<Author> authors;
     private List<AudiobookAuthorDTO> authors;
     private Boolean isForAdults;
     private Integer length; // seconds
