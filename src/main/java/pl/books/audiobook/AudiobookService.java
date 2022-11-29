@@ -37,12 +37,10 @@ public class AudiobookService {
         return audiobookRepository.saveAll(audiobooks);
     }
 
-////////////////////////////////////
     public AudiobookDTO getAudiobookById(Long id) {
         AudiobookEntity audiobook = audiobookRepository.findById(id).orElse(null);// stream + converter
         return convertEntityToDto(audiobook);
     }
-////////////////////////////////////
 
     public List<AudiobookDTO> getAudiobooks() {
         return audiobookRepository.findAll()
@@ -105,7 +103,7 @@ public class AudiobookService {
         return "Audiobook got deleted";
     }
 
-    private AudiobookDTO convertEntityToDto(AudiobookEntity audiobook){
+    AudiobookDTO convertEntityToDto(AudiobookEntity audiobook){
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
         AudiobookDTO audiobookDTO = new AudiobookDTO();
@@ -113,7 +111,7 @@ public class AudiobookService {
         return audiobookDTO;
     }
 
-    private AudiobookEntity convertDtoToEntity(AudiobookDTO audiobookDTO){
+    public AudiobookEntity convertDtoToEntity(AudiobookDTO audiobookDTO){
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
         AudiobookEntity audiobook = new AudiobookEntity();
