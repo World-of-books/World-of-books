@@ -14,6 +14,9 @@ public class ScientificPaperAuthorDTO {
         this.lastName = lastName;
     }
 
+    public ScientificPaperAuthorDTO() {
+    }
+
     public ScientificPaperAuthorDTO(Long id) {
         this.id = id;
     }

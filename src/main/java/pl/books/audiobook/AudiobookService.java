@@ -103,7 +103,7 @@ public class AudiobookService {
         return "Audiobook got deleted";
     }
 
-    private AudiobookDTO convertEntityToDto(AudiobookEntity audiobook){
+    AudiobookDTO convertEntityToDto(AudiobookEntity audiobook){
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
         AudiobookDTO audiobookDTO = new AudiobookDTO();
@@ -111,7 +111,7 @@ public class AudiobookService {
         return audiobookDTO;
     }
 
-    private AudiobookEntity convertDtoToEntity(AudiobookDTO audiobookDTO){
+    public AudiobookEntity convertDtoToEntity(AudiobookDTO audiobookDTO){
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
         AudiobookEntity audiobook = new AudiobookEntity();

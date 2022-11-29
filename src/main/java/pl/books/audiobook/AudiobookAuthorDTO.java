@@ -14,7 +14,6 @@ public class AudiobookAuthorDTO {
     private Long id;
     private String firstName;
     private String lastName;
-//    private List<AudiobookEntity> audiobooks;
 
 
 }
