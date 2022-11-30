@@ -19,4 +19,6 @@ public class AppUserDto {
     private String userEmail;
     private boolean isAdult;
     private List<String> userRoles;
+    private List<BorrowedPublicationDTo> borrow;
+
 }

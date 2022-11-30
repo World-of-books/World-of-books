@@ -1,11 +1,14 @@
 package pl.books.app_user;
 
 import org.springframework.stereotype.Component;
+import pl.books.borrow_publication.BorrowEntity;
+import pl.books.scientific_paper.ScientificPaperAuthorDTO;
 import pl.books.utils.AdultChecker;
 import pl.books.utils.BirthDateChecker;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -33,8 +36,25 @@ public class AppUserTransformer {
                 isAdult,
                 appUser.getUserRoles().stream()
                         .map(UserRole::getRoleName)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                toBorrowedPublications(appUser.getBorrow())
         );
+    }
+
+    private List<BorrowedPublicationDTo> toBorrowedPublications(List<BorrowEntity> borrows){
+        return borrows.stream().map(entity -> {
+            return new BorrowedPublicationDTo(
+                    entity.getId(),
+                    entity.getPublication().getId(),
+                    entity.getPublication().getName(),
+                    entity.getPublication().getAuthors().stream().map(authorEntity -> {
+                        return new ScientificPaperAuthorDTO(authorEntity.getId(), authorEntity.getFirstName(), authorEntity.getLastName());
+                    }).collect(Collectors.toList()),
+                    entity.getPublicationType(),
+                    entity.getBorrowDate().toString(),
+                    entity.getRequiredReturnDate().toString()
+            );
+        }).collect(Collectors.toList());
     }
 
 }

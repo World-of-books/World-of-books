@@ -29,6 +29,8 @@ public class AppUser {
     private LocalDate birthDate;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<UserRole> userRoles = new ArrayList<>();
+    @OneToMany(mappedBy = "appUser")
+    private List<BorrowEntity> borrow;
 
     public AppUser() {
     }

@@ -21,7 +21,7 @@ public class BorrowEntity {
     @OneToOne
     private Publication publication;
     private PublicationType publicationType;
-    @OneToOne
+    @ManyToOne
     private AppUser appUser;
     private LocalDate borrowDate;
     private LocalDate requiredReturnDate;
