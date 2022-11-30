@@ -19,9 +19,9 @@ public class BorrowEntityController {
         return borrowEntityService.getAllBorrows();
     }
 
-    @GetMapping("/by-user/{id}")
-    List<BorrowDTO> getAllByUserId(@PathVariable Long id){
-        return borrowEntityService.getAllByUserId(id);
+    @GetMapping("/by-user/{username}")
+    List<BorrowDTO> getAllByUserId(@PathVariable String username){
+        return borrowEntityService.getAllByUserId(username);
     }
 
     @GetMapping("currently-borrowed-by/{username}")

@@ -13,6 +13,8 @@ public interface BorrowEntityRepository extends JpaRepository<BorrowEntity, Long
 
     List<BorrowEntity> findAllByAppUser_Id(Long id);
 
+    List<BorrowEntity> findAllByAppUser_UsernameOrderByIdDesc(String username);
+
     List<BorrowEntity> findAllByAppUser_UsernameAndRequiredReturnDateIsGreaterThanEqual(String username, LocalDate today);
 
     Optional<BorrowEntity> findByAppUser_IdAndPublication_IdAndAndRequiredReturnDateIsGreaterThanEqual(Long userid, Long publicationId, LocalDate today);

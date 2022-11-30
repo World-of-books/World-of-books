@@ -32,8 +32,8 @@ public class BorrowEntityService {
                 .collect(Collectors.toList());
     }
 
-    List<BorrowDTO> getAllByUserId(Long id) {
-        return borrowEntityRepository.findAllByAppUser_Id(id).stream()
+    List<BorrowDTO> getAllByUserId(String username) {
+        return borrowEntityRepository.findAllByAppUser_UsernameOrderByIdDesc(username).stream()
                 .map(borrowTransformer::toDto)
                 .collect(Collectors.toList());
     }

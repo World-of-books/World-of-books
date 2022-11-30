@@ -4,11 +4,15 @@ package pl.books.app_user;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import pl.books.app.Publication;
+import pl.books.borrow_publication.BorrowEntity;
+import pl.books.borrow_publication.PublicationType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity(name = "users")
 @Getter

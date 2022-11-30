@@ -1,5 +1,6 @@
 package pl.books.app_user;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,6 +11,12 @@ public class AppUserController {
 
     public AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
+    }
+
+    @GetMapping("/all")
+    Page<AppUserDto> getAllUsers(@RequestParam(required = false) Integer page,
+                                 @RequestParam(required = false) Integer size) {
+        return appUserService.getAllUsers(page, size);
     }
 
     @DeleteMapping("/delete-user")

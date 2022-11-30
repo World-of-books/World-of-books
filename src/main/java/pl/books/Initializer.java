@@ -109,5 +109,46 @@ public class Initializer {
         List<BorrowEntity> all = borrowEntityRepository.findAll();
         System.out.println(all.get(0));
         System.out.println(all.get(1));
+
+        AppUser appUserAdmin = new AppUser(18L, "admin", "admin@admin.com", "admin", "88101000009", LocalDate.of(1988, 10, 10), List.of(user, admin));
+        appUserAdmin.setUserPassword(passwordEncoder.encode(appUserAdmin.getUserPassword()));
+        appUserRepository.save(appUserAdmin);
+
+        AuthorEntity varghese = authorRepository.save(new AuthorEntity("George", "Varghese"));
+
+        ScientificPaperEntity network_algorithmics = scientificPaperRepository.save(new ScientificPaperEntity("Network Algorithmics", Set.of(), "An Interdisciplinary Approach to Designing Fast Networked Devices",
+                FieldOfStudy.COMPUTER_SCIENCE, "University of California, San Diego", false, 465, LocalDate.of(2005, 1, 1)));
+        network_algorithmics.setAuthors(Set.of(varghese));
+        scientificPaperRepository.save(network_algorithmics);
+
+        AuthorEntity s_long = authorRepository.save(new AuthorEntity("Sarah", "Long"));
+
+        ScientificPaperEntity pediatricInfectiousDiseases = scientificPaperRepository.save(new ScientificPaperEntity("Principles and Practice of Pediatric Infectious Diseases", Set.of(), "Presented publication provides the comprehensive and actionable coverage you need to understand, diagnose, and manage the ever-changing, high-risk clinical problems caused by infectious diseases in children and adolescents.",
+                FieldOfStudy.HEALTH, "University College of Medicine, Philadelphia", false, 1712, LocalDate.of(2012, 1, 1)));
+        pediatricInfectiousDiseases.setAuthors(Set.of(s_long));
+        scientificPaperRepository.save(pediatricInfectiousDiseases);
+
+        AuthorEntity kaminski = authorRepository.save(new AuthorEntity("Amy", "Kaminski"));
+
+        ScientificPaperEntity space_science = scientificPaperRepository.save(new ScientificPaperEntity("Space Science and Public Engagement", Set.of(), "Presented publication critically examines the many dimensions of public engagement with space science by exploring case studies that show a spectrum of public engagement formats",
+                FieldOfStudy.ASTRONOMY, "University Unknown", false, 273, LocalDate.of(2021, 1, 1)));
+        space_science.setAuthors(Set.of(kaminski));
+        scientificPaperRepository.save(space_science);
+
+        AuthorEntity zhao = authorRepository.save(new AuthorEntity("Yanchang", "Zhao"));
+        AuthorEntity cen = authorRepository.save(new AuthorEntity("Yonghua", "Cen"));
+
+        ScientificPaperEntity data_mining = scientificPaperRepository.save(new ScientificPaperEntity("Data Mining Applications with R", Set.of(), "Data Mining Applications with R is a great resource for researchers and professionals to understand the wide use of R, a free software environment for statistical computing and graphics, in solving different problems in industry.",
+                FieldOfStudy.MATHEMATICS, "University of Science and Technology, China", false, 470, LocalDate.of(2014, 1, 1)));
+        data_mining.setAuthors(Set.of(zhao, cen));
+        scientificPaperRepository.save(data_mining);
+
+        AuthorEntity sergeev = authorRepository.save(new AuthorEntity("G.B.", "Sergeev"));
+
+        ScientificPaperEntity nanochemistry = scientificPaperRepository.save(new ScientificPaperEntity("Nanochemistry", Set.of(), "This book is devoted to nanochemistry: a branch of the actively developing interdisciplinary field of nanoscience. This branch of science studies the processes to production and reactions of nanoparticles and their compounds",
+                FieldOfStudy.CHEMISTRY, "University of Moscow, Russian Federation", false, 249, LocalDate.of(2006, 1, 1)));
+        nanochemistry.setAuthors(Set.of(sergeev));
+        scientificPaperRepository.save(nanochemistry);
+
     }
 }
