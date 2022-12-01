@@ -1,25 +1,17 @@
 package pl.books.scientific_paper;
 
+import pl.books.app.Publication;
 import pl.books.author.AuthorEntity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity(name = "paper")
-public class ScientificPaperEntity implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String name;
+public class ScientificPaperEntity extends Publication {
+
     private String description;
-    @ManyToMany(mappedBy = "publications", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<AuthorEntity> authors = new HashSet<>();
     private FieldOfStudy field;
     private String university;
     private Boolean isForAdults;
@@ -30,14 +22,9 @@ public class ScientificPaperEntity implements Serializable {
     public ScientificPaperEntity() {
     }
 
-    public ScientificPaperEntity(Long id) {
-        this.id = id;
-    }
-
-    public ScientificPaperEntity(String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate, Integer quantity) {
-        this.name = name;
+    public ScientificPaperEntity(Long id, String name, Set<AuthorEntity> authors, String description, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate, Integer quantity) {
+        super(id, name, authors);
         this.description = description;
-        this.authors = authors;
         this.field = field;
         this.university = university;
         this.isForAdults = isForAdults;
@@ -46,11 +33,9 @@ public class ScientificPaperEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public ScientificPaperEntity(Long id, String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate, Integer quantity) {
-        this.id = id;
-        this.name = name;
+    public ScientificPaperEntity(String name, Set<AuthorEntity> authors, String description, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate, Integer quantity) {
+        super(name, authors);
         this.description = description;
-        this.authors = authors;
         this.field = field;
         this.university = university;
         this.isForAdults = isForAdults;
@@ -59,31 +44,39 @@ public class ScientificPaperEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public static ScientificPaperEntity of(String name, String description, Set<AuthorEntity> authors, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate, Integer quantity) {
-        return new ScientificPaperEntity(name, description, authors, field, university, isForAdults, pages, publishedDate, quantity);
+    public ScientificPaperEntity(String name, Set<AuthorEntity> authors, String description, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate) {
+        super(name, authors);
+        this.description = description;
+        this.field = field;
+        this.university = university;
+        this.isForAdults = isForAdults;
+        this.pages = pages;
+        this.publishedDate = publishedDate;
     }
+
+    public static ScientificPaperEntity of(String name, Set<AuthorEntity> authors, String description, FieldOfStudy field, String university, Boolean isForAdults, Integer pages, LocalDate publishedDate, Integer quantity) {
+        return new ScientificPaperEntity(name,authors, description, field, university, isForAdults, pages, publishedDate, quantity);
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ScientificPaperEntity)) return false;
+        if (!super.equals(o)) return false;
         ScientificPaperEntity that = (ScientificPaperEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && (authors == null || that.authors == null || authors.containsAll(that.authors)) && field == that.field && Objects.equals(university, that.university) && Objects.equals(isForAdults, that.isForAdults) && Objects.equals(pages, that.pages) && Objects.equals(publishedDate, that.publishedDate) && Objects.equals(quantity, that.quantity);
+        return Objects.equals(description, that.description) && field == that.field && Objects.equals(university, that.university) && Objects.equals(isForAdults, that.isForAdults) && Objects.equals(pages, that.pages) && Objects.equals(publishedDate, that.publishedDate) && Objects.equals(quantity, that.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, field, university, isForAdults, pages, publishedDate, quantity);
+        return Objects.hash(super.hashCode(), description, field, university, isForAdults, pages, publishedDate, quantity);
     }
 
     @Override
     public String toString() {
-        List<String> authorsData = authors.stream().map(author -> author.getId() + " " + author.getFirstName() + " " + author.getLastName()).toList();
         return "ScientificPaperEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", authors=" + authorsData +
+                "description='" + description + '\'' +
                 ", field=" + field +
                 ", university='" + university + '\'' +
                 ", isForAdults=" + isForAdults +
@@ -93,36 +86,12 @@ public class ScientificPaperEntity implements Serializable {
                 '}';
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set<AuthorEntity> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Set<AuthorEntity> authors) {
-        this.authors = authors;
     }
 
     public FieldOfStudy getField() {

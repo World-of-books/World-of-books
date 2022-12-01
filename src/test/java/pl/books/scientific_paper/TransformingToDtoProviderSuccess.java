@@ -19,13 +19,13 @@ public class TransformingToDtoProviderSuccess implements ArgumentsProvider {
                 //Entity input
                 //DTO result
                 Arguments.of(
-                        new ScientificPaperEntity("Test", "Test", new HashSet<>(),
+                        new ScientificPaperEntity("Test", new HashSet<>(), "Test",
                                 FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10), 1),
                         new ScientificPaperDTO(null, "Test", "Test", new ArrayList<>(),
                                 "ASTRONOMY", "Test", true, 123, LocalDate.of(1990, 10, 10).toString(), 1)
                 ),
                 Arguments.of(
-                        new ScientificPaperEntity("Test", "Test", Set.of(AuthorEntity.of("Test1", "Test11"), AuthorEntity.of("Test2", "test22")),
+                        new ScientificPaperEntity("Test", Set.of(AuthorEntity.of("Test1", "Test11"), AuthorEntity.of("Test2", "test22")), "Test",
                                 FieldOfStudy.ASTRONOMY, "Test", true, 123, LocalDate.of(1990, 10, 10), 1),
                         new ScientificPaperDTO(null, "Test", "Test", List.of(new ScientificPaperAuthorDTO(null, "Test1", "Test11"), new ScientificPaperAuthorDTO(null, "Test2", "test22")),
                                 "ASTRONOMY", "Test", true, 123, "1990-10-10", 1)

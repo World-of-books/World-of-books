@@ -22,7 +22,6 @@ import pl.books.author.AuthorRepository;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -157,7 +156,7 @@ public class ScientificPaperIntegrationTests {
         //given
         long id = 2L;
         AuthorEntity author = authorRepository.save(new AuthorEntity(1L));
-        ScientificPaperEntity scientificPaper = new ScientificPaperEntity(id,"Test", "Test", new HashSet<>(), FieldOfStudy.ASTRONOMY, "Test university", true, 123, LocalDate.of(2023, 1, 1), 1);
+        ScientificPaperEntity scientificPaper = new ScientificPaperEntity(id, "Test", new HashSet<>(), "Test", FieldOfStudy.ASTRONOMY, "Test university", true, 123, LocalDate.of(2023, 1, 1), 1);
         scientificPaper.getAuthors().add(author);
         author.getPublications().add(scientificPaper);
         scientificPaperRepository.save(scientificPaper);

@@ -1,5 +1,6 @@
 package pl.books.app_user;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -8,11 +9,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.books.borrow_publication.BorrowEntityRepository;
 
 import java.util.NoSuchElementException;
 
 
 @Service
+@AllArgsConstructor
 public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository userRepository;
@@ -20,12 +23,6 @@ public class AppUserService implements UserDetailsService {
     private final AppUserTransformer appUserTransformer;
     private final PasswordEncoder passwordEncoder;
 
-    public AppUserService(AppUserRepository userRepository, UserRoleRepository roleRepository, AppUserTransformer appUserTransformer, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.appUserTransformer = appUserTransformer;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -34,7 +31,7 @@ public class AppUserService implements UserDetailsService {
         return new UserDetailsAdapter(appUser);
     }
 
-    public AppUserCreateNewDto saveUser(AppUserCreateNewDto user) {
+    public AppUserDto saveUser(AppUserCreateNewDto user) {
         userRepository.findByUserEmailIgnoreCase(user.getUserEmail()).ifPresent(u -> {
             throw new IllegalArgumentException("Another user already exists with email address " + user.getUserEmail());
         });
@@ -49,8 +46,8 @@ public class AppUserService implements UserDetailsService {
         appUserEntity.setUserPassword(passwordEncoder.encode(user.getPassword()));
         UserRole userRole = roleRepository.findByRoleNameIgnoreCase("user").get();
         appUserEntity.getUserRoles().add(userRole);
-        userRepository.save(appUserEntity);
-        return user;
+        AppUser savedUser = userRepository.save(appUserEntity);
+        return appUserTransformer.toUserDto(savedUser);
     }
 
     String deleteUser(String username) {

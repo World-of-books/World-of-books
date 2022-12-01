@@ -34,7 +34,7 @@ public class ScientificPaperService {
                 .withMatcher("university", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withIgnoreNullValues();
         Example<ScientificPaperEntity> example = Example.of(
-                new ScientificPaperEntity(name, desc, authors, fieldOfStudy, university, isForAdults, null, null, null), matcher);
+                new ScientificPaperEntity(name, authors, desc, fieldOfStudy, university, isForAdults, null, null, null), matcher);
         if (page != null && size != null && page == -1 && size == -1) {
             Pageable wholePage = Pageable.unpaged();
             return scientificPaperRepository.findAll(example, wholePage).map(scientificPaperTransformer::toDTO);
@@ -45,11 +45,12 @@ public class ScientificPaperService {
         return results == null ? Page.empty() : results.map(scientificPaperTransformer::toDTO);
     }
 
-    Page<ScientificPaperDTO> getAllScientificPapers(Integer page, Integer size) {
+    Page<ScientificPaperDTO> getAllScientificPapers(Integer page, Integer size, String sortBy) {
         page = page == null || page < 0 ? 0 : page;
         size = size == null || size < 1 ? 50 : size;
+        Sort sort = sortBy == null ? Sort.by(Sort.Direction.ASC, "name") : Sort.by(Sort.Direction.DESC, sortBy);
 
-        Page<ScientificPaperEntity> entities = scientificPaperRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
+        Page<ScientificPaperEntity> entities = scientificPaperRepository.findAll(PageRequest.of(page, size, sort));
         return entities == null ? Page.empty() : entities.map(scientificPaperTransformer::toDTO);
     }
 

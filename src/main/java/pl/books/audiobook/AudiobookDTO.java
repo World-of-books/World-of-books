@@ -12,7 +12,7 @@ import java.util.List;
 public class AudiobookDTO {
 
     private Long id;
-    private String title;
+    private String name;
     private String description;
     private List<AudiobookAuthorDTO> authors;
     private Boolean isForAdults;
